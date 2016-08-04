@@ -8,9 +8,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
+import tests.model.Customer;
+import tests.model.Phone;
 
 
-public class SampleTest {
+public class Hw6 {
 
     private Client restClient = ClientBuilder.newClient();
     private WebTarget target = restClient.target("http://localhost:8080/api/");
