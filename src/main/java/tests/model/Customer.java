@@ -1,5 +1,6 @@
 package tests.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Customer {
     private Long id;
     private String firstName;
