@@ -11,6 +11,8 @@ import org.junit.Test;
 import tests.model.Customer;
 import tests.model.Phone;
 
+import java.util.Arrays;
+
 
 public class Hw6 {
 
@@ -29,7 +31,7 @@ public class Hw6 {
     @Test
     public void saveCustomer() {
         Customer customer = new Customer(1L, "J", null, "customer_type.private", "A1");
-        customer.getPhones().add(new Phone(2L, "123", "phone_type.fixed"));
+        customer.setPhones(Arrays.asList(new Phone("phone_type.fixed", "123")));
 
         Response response = target.path("customers").request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(customer, MediaType.APPLICATION_JSON));

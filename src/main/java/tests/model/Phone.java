@@ -1,17 +1,18 @@
 package tests.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Getter
 public class Phone {
 
     private Long id;
-    private String value;
+
+    @NonNull
     private String type;
 
+    @NonNull
+    private String value;
 
 }

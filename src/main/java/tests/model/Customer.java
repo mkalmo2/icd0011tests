@@ -17,7 +17,7 @@ public class Customer {
     private String type;
     private String code;
 
-    private List<Phone> phones = new ArrayList<>();
+    private List<Phone> phones;
 
     public Customer(Long id, String firstName, String lastName, String type, String code) {
         this.id = id;

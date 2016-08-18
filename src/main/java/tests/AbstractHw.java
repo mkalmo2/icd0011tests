@@ -23,15 +23,12 @@ public abstract class AbstractHw {
     }
 
     protected Customer getCustomer(String firstName, String lastName, String code) {
-        Customer customer = new Customer(null, firstName, lastName, null, code);
-        customer.setPhones(null);
-        return customer;
+        return new Customer(null, firstName, lastName, null, code);
     }
 
     protected Customer getCustomer(String firstName) {
         Customer customer = new Customer();
         customer.setFirstName(firstName);
-        customer.setPhones(null);
         return customer;
     }
 
@@ -43,6 +40,10 @@ public abstract class AbstractHw {
     }
 
     protected Customer getOne(String path, Parameter ... parameters) {
+        return getOne(path, Customer.class, parameters);
+    }
+
+    protected <T> T getOne(String path, Class<T> clazz, Parameter ... parameters) {
         WebTarget target = getTarget().path(path);
 
         for (Parameter p : parameters) {
@@ -51,7 +52,7 @@ public abstract class AbstractHw {
 
         return target
                 .request(MediaType.APPLICATION_JSON)
-                .get(Customer.class);
+                .get(clazz);
     }
 
     protected Parameter param(String key, Object value) {
