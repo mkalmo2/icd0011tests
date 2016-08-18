@@ -29,15 +29,55 @@ public class Hw4 extends AbstractHw {
 
     @Test
     @PenaltyOnTestFailure(5)
-    public void getCustomerWithPhones() {
+    public void getCustomersWithPhones() {
+        String url = "api/customers";
+        delete(url);
+
+        Customer customer = new Customer();
+        customer.setPhones(Arrays.asList(new Phone("mobile", "123"), new Phone("fixed", "456")));
+        postJson(url, customer);
+
+        customer = new Customer();
+        customer.setPhones(Arrays.asList(new Phone("mobile", "789")));
+        postJson(url, customer);
+
+        customer = new Customer();
+        customer.setPhones(Arrays.asList());
+        postJson(url, customer);
+
+        List<Customer> customers = getList(url);
+
+        assertThat(customers.size(), is(3));
+
+        List<Phone> phones = customers.get(0).getPhones();
+
+        assertThat(phones.size(), is(2));
+        assertThat(phones.get(0).getType(), is("mobile"));
+        assertThat(phones.get(1).getValue(), is("456"));
+    }
+
+    @Test
+    @PenaltyOnTestFailure(5)
+    public void getCustomersWithPhones1() {
         delete("customers");
 
         Customer customer = new Customer();
         customer.setPhones(Arrays.asList(new Phone("mobile", "123"), new Phone("fixed", "456")));
-
         postJson("customers", customer);
 
-        List<Phone> phones = getList("customers").get(0).getPhones();
+        customer = new Customer();
+        customer.setPhones(Arrays.asList(new Phone("mobile", "789")));
+        postJson("customers", customer);
+
+        customer = new Customer();
+        customer.setPhones(Arrays.asList());
+        postJson("customers", customer);
+
+        List<Customer> customers = getList("customers");
+
+        assertThat(customers.size(), is(3));
+
+        List<Phone> phones = customers.get(0).getPhones();
 
         assertThat(phones.size(), is(2));
         assertThat(phones.get(0).getType(), is("mobile"));
