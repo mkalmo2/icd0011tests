@@ -4,6 +4,7 @@ import org.junit.Test;
 import tests.model.ClassifierInfo;
 import tests.model.Customer;
 import tests.model.Phone;
+import util.PenaltyOnTestFailure;
 
 import java.util.Arrays;
 import java.util.List;

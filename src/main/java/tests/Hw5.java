@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.Test;
 import tests.model.Customer;
+import util.PenaltyOnTestFailure;
 
 import java.util.List;
 
