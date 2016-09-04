@@ -7,7 +7,6 @@ import util.PenaltyOnTestFailure;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
 
@@ -30,14 +29,14 @@ public class Hw3 extends AbstractHw {
     @Test
     @PenaltyOnTestFailure(3)
     public void getOneCustomer() {
-        delete("customers");
+        delete("api/customers");
 
-        postJson("customers", getCustomer("Jack"));
-        postJson("customers", getCustomer("Jane"));
+        postJson("api/customers", getCustomer("Jack"));
+        postJson("api/customers", getCustomer("Jane"));
 
-        Long janeId = getList("customers").get(1).getId();
+        Long janeId = getList("api/customers").get(1).getId();
 
-        Customer jane = getOne("customers", param("id", janeId));
+        Customer jane = getOne("api/customers", param("id", janeId));
 
         assertThat(jane.getFirstName(), is("Jane"));
     }
@@ -45,16 +44,16 @@ public class Hw3 extends AbstractHw {
     @Test
     @PenaltyOnTestFailure(3)
     public void deleteOneCustomer() {
-        delete("customers");
+        delete("api/customers");
 
-        postJson("customers", getCustomer("Jack"));
-        postJson("customers", getCustomer("Jane"));
+        postJson("api/customers", getCustomer("Jack"));
+        postJson("api/customers", getCustomer("Jane"));
 
-        Long janeId = getList("customers").get(1).getId();
+        Long janeId = getList("api/customers").get(1).getId();
 
-        delete("customers", param("id", janeId));
+        delete("api/customers", param("id", janeId));
 
-        List<Customer> customers = getList("customers");
+        List<Customer> customers = getList("api/customers");
 
         assertThat(customers.size(), is(1));
         assertThat(customers.get(0).getFirstName(), is("Jack"));

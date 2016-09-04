@@ -44,7 +44,7 @@ public class Hw2 extends AbstractHw {
     }
 
     @Test
-    @PenaltyOnTestFailure(3)
+    @PenaltyOnTestFailure(4)
     public void insertFromJson() {
 
         delete("api/customers");
