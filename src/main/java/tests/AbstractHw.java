@@ -4,19 +4,54 @@ import lombok.AllArgsConstructor;
 import lombok.ToString;
 import tests.model.Customer;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 
 public abstract class AbstractHw {
 
     protected abstract String getBaseUrl();
 
-    protected static final Client client = ClientBuilder.newClient();
+    protected static final Client client = getClient();
+
+    private static Client getClient() {
+        try {
+            SSLContext sslcontext = SSLContext.getInstance("TLS");
+            sslcontext.init(null, new TrustManager[] {getX509TrustManager()}, new SecureRandom());
+            return ClientBuilder.newBuilder().sslContext(sslcontext).hostnameVerifier((s1, s2) -> true).build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static X509TrustManager getX509TrustManager() {
+        return new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(X509Certificate[] x509Certificates, String s)
+                    throws CertificateException {
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] x509Certificates, String s)
+                    throws CertificateException {
+            }
+
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+        };
+    }
 
     public WebTarget getTarget() {
         return client.target(getBaseUrl());
