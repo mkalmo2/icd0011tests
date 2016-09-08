@@ -7,6 +7,7 @@ import util.PenaltyOnTestFailure;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.Is.is;
 
 
@@ -17,13 +18,27 @@ public class Hw3 extends AbstractHw {
     @Test
     @PenaltyOnTestFailure(3)
     public void insertFromJson() {
-        new Hw2().insertFromJson();
+        delete("api/customers");
+
+        postJson("api/customers", getCustomer("Jack", "Smith", "C1"));
+        postJson("api/customers", getCustomer("Jane", "Smith", "C2"));
+
+        List<Customer> customers = getList("api/customers");
+
+        assertThat(customers.size(), is(2));
+        assertThat(customers.get(0).getFirstName(), is("Jack"));
+        assertThat(customers.get(1).getCode(), is("C2"));
     }
 
     @Test
     @PenaltyOnTestFailure(3)
     public void deletesAllCustomers() {
-        new Hw2().deletesAllCustomers();
+        postJson("api/customers", getCustomer("Jack", "Smith", "C1"));
+        postJson("api/customers", getCustomer("Jane", "Smith", "C2"));
+
+        delete("api/customers");
+
+        assertThat(getList("api/customers"), is(empty()));
     }
 
     @Test
@@ -63,4 +78,5 @@ public class Hw3 extends AbstractHw {
     protected String getBaseUrl() {
         return BASE_URL;
     }
+
 }
