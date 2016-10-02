@@ -34,11 +34,12 @@ public class Hw4 extends AbstractHw {
         delete("api/customers");
 
         Customer customer = new Customer();
-        customer.setPhones(Arrays.asList(new Phone("mobile", "123"), new Phone("fixed", "456")));
+        customer.setPhones(Arrays.asList(new Phone("phone_type.mobile", "123"),
+                                         new Phone("phone_type.fixed", "456")));
         postJson("api/customers", customer);
 
         customer = new Customer();
-        customer.setPhones(Arrays.asList(new Phone("mobile", "789")));
+        customer.setPhones(Arrays.asList(new Phone("phone_type.mobile", "789")));
         postJson("api/customers", customer);
 
         customer = new Customer();
@@ -52,7 +53,7 @@ public class Hw4 extends AbstractHw {
         List<Phone> phones = customers.get(0).getPhones();
 
         assertThat(phones.size(), is(2));
-        assertThat(phones.get(0).getType(), is("mobile"));
+        assertThat(phones.get(0).getType(), is("phone_type.mobile"));
         assertThat(phones.get(1).getValue(), is("456"));
     }
 
