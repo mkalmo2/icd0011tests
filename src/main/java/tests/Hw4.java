@@ -29,6 +29,21 @@ public class Hw4 extends AbstractHw {
     }
 
     @Test
+    @PenaltyOnTestFailure(2)
+    public void customerHasCustomerType() {
+        delete("api/customers");
+
+        Customer customer = new Customer();
+        customer.setType("customer_type.corporate");
+
+        postJson("api/customers", customer);
+
+        List<Customer> customers = getList("api/customers");
+
+        assertThat(customers.get(0).getType(), is("customer_type.corporate"));
+    }
+
+    @Test
     @PenaltyOnTestFailure(5)
     public void getCustomersWithPhones() {
         delete("api/customers");
