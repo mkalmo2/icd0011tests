@@ -20,8 +20,9 @@ public class Hw4 extends AbstractHw {
 
     @Test
     @PenaltyOnTestFailure(5)
-    public void providesClassifierInfo() {
+    public void applicationProvidesClassifierInfo() {
         ClassifierInfo info = getOne("api/classifiers", ClassifierInfo.class);
+
         assertThat(info.getCustomerTypes(),
                 contains("customer_type.private", "customer_type.corporate"));
         assertThat(info.getPhoneTypes(),
@@ -45,7 +46,7 @@ public class Hw4 extends AbstractHw {
 
     @Test
     @PenaltyOnTestFailure(5)
-    public void getCustomersWithPhones() {
+    public void customerHasZeroToManyPhones() {
         delete("api/customers");
 
         Customer customer = new Customer();
