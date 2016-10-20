@@ -42,6 +42,7 @@ public class LoggingFilter implements ClientRequestFilter, ClientResponseFilter 
 
         System.out.println("DATA: " + outputStream.getBuffer());
         System.out.println("RESPONSE HEADERS: " + response.getHeaders());
+        System.out.println("RESPONSE CODE: " + response.getStatus());
         System.out.println("RESPONSE DATA: " + responseData);
         System.out.println("-----------------------------------------------------------");
     }

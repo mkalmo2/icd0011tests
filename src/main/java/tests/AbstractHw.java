@@ -1,6 +1,8 @@
 package tests;
 
 import tests.model.Customer;
+import tests.model.ValidationError;
+import tests.model.ValidationErrors;
 import util.LoggingFilter;
 import util.NopX509TrustManager;
 import util.Parameter;
@@ -13,7 +15,9 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.security.SecureRandom;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractHw {
@@ -52,9 +56,14 @@ public abstract class AbstractHw {
         return customer;
     }
 
-    protected List<Customer> getList(String path) {
-        return getTarget()
-                .path(path)
+    protected List<Customer> getList(String path, Parameter... parameters) {
+        WebTarget target = getTarget().path(path);
+
+        for (Parameter p : parameters) {
+            target = target.queryParam(p.getKey(), p.getValue());
+        }
+
+        return target
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Customer>>() {});
     }
@@ -79,11 +88,15 @@ public abstract class AbstractHw {
         return new Parameter(key, String.valueOf(value));
     }
 
-    protected void postJson(String path, Customer data) {
-        getTarget()
+    protected List<ValidationError> postJson(String path, Customer data) {
+        Response response = getTarget()
                 .path(path)
                 .request()
                 .post(Entity.entity(data, MediaType.APPLICATION_JSON));
+
+        return response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
+                ? response.readEntity(ValidationErrors.class).getErrors()
+                : Collections.emptyList();
     }
 
     protected void delete(String path, Parameter ... parameters) {
