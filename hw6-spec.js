@@ -11,15 +11,15 @@ describe('hw6 UI', function () {
     // @PenaltyOnTestFailure(10)
     it('menu links should change url', function () {
 
-        expect(currentUrl()).toBe(getUrl('/#/search'));
+        expect(currentUrl()).toBe(getUrl('#/search'));
 
         link('menu-new').click();
 
-        expect(currentUrl()).toBe(getUrl('/#/new'));
+        expect(currentUrl()).toBe(getUrl('#/new'));
 
         link('menu-search').click();
 
-        expect(currentUrl()).toBe(getUrl('/#/search'));
+        expect(currentUrl()).toBe(getUrl('#/search'));
     });
 
     // @PenaltyOnTestFailure(10)
@@ -36,7 +36,7 @@ describe('hw6 UI', function () {
 
         link('save-link').click();
 
-        expect(currentUrl()).toBe(getUrl('/#/search'));
+        expect(currentUrl()).toBe(getUrl('#/search'));
 
         expect(element(by.tagName('table')).getText()).toContain(sampleData.firstName);
         expect(element(by.tagName('table')).getText()).toContain(sampleData.lastName);
@@ -221,7 +221,7 @@ function input(id) {
 }
 
 function getUrl(path) {
-    return BASE_URL.replace(/\/$/, '') + path;
+    return BASE_URL.replace(/\/$/, '/') + path;
 }
 
 var request = require('request');
