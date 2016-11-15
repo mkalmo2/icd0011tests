@@ -1,7 +1,10 @@
+node_modules
+
 /.idea
 /target
 *.iml
 *.class
 *.war
 *.jar
+*.log
 
