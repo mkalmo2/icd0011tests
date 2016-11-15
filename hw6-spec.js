@@ -221,7 +221,7 @@ function input(id) {
 }
 
 function getUrl(path) {
-    return BASE_URL.replace(/\/$/, '/') + path;
+    return BASE_URL.replace(/\/$/, '') + '/' + path;
 }
 
 var request = require('request');
