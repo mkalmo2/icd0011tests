@@ -2,7 +2,8 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
 
     capabilities: {
-        'browserName': 'phantomjs'
+        'browserName': 'phantomjs',
+        'phantomjs.cli.args': ['--ignore-ssl-errors=true']
     },
 
     specs: ['hw6-spec.js'],
