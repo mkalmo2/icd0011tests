@@ -165,7 +165,9 @@ function link(id) {
 }
 
 function goTo(addr) {
-    browser.get(addr);
+    browser.get(addr).then(function () {
+        browser.manage().window().setSize(1920, 1080);
+    });
 }
 
 function select(id) {
