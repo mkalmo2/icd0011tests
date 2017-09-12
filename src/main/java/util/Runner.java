@@ -27,7 +27,7 @@ public class Runner {
 
         junit.run(resolveClass(tag));
 
-        System.out.println("POINTS: " + counter.getResult());
+        System.out.println("RESULT: " + counter.getResult() + " POINTS");
     }
 
     private Class<?> resolveClass(String tag) {

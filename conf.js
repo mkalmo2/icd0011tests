@@ -12,5 +12,18 @@ exports.config = {
 
     jasmineNodeOpts: {
         showColors: true
+    },
+
+    onPrepare: function() {
+        jasmine.getEnv().addReporter(getReporter());
     }
+
 };
+
+function getReporter() {
+    return {
+        suiteDone: function(result) {
+            console.log('Suite ' + result.description + ' done');
+        }
+    };
+}

@@ -10,7 +10,6 @@ describe('hw6 UI', function () {
 
     // @PenaltyOnTestFailure(10)
     it('menu links should change url', function () {
-
         expect(currentUrl()).toBe(getUrl('#/search'));
 
         link('menu-new').click();
