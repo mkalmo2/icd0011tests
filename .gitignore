@@ -1,10 +1,15 @@
-node_modules
-
-/.idea
 /target
+/build
+
+/.gradle
+/.settings
+/.classpath
+/.project
+/.idea
+
 *.iml
 *.class
 *.war
 *.jar
-*.log
 
+!/gradle/wrapper/gradle-wrapper.jar
