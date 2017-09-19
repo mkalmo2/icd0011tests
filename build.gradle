@@ -17,6 +17,8 @@ dependencies {
 
 task runTest(type: JavaExec) {
     main = 'util.Runner'
-    args tag
+    if (project.hasProperty("tag")) {
+        args tag
+    }
     classpath = sourceSets.main.runtimeClasspath
 }
