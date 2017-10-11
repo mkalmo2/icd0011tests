@@ -21,7 +21,7 @@ public class Runner {
             public void testFailure(Failure failure) throws Exception {
                 PenaltyOnTestFailure penalty = failure.getDescription().getAnnotation(PenaltyOnTestFailure.class);
                 counter.subtract(penalty.value());
-                System.out.println("   " + failure.getDescription());
+                System.out.println("   " + failure.getDescription() + " failed");
             }
         });
 
