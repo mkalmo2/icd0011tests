@@ -1,5 +1,6 @@
 package tests;
 
+import org.hamcrest.core.AnyOf;
 import org.junit.Test;
 import util.LoginData;
 import util.PenaltyOnTestFailure;
@@ -32,10 +33,10 @@ public class Hw6 extends AbstractHw {
 
     @Test
     @PenaltyOnTestFailure(10)
-    public void accessingProtectedResourceWithoutLoggingInGives401Response() {
+    public void accessingProtectedResourceWithoutLoggingInGivesAuthFailureCode() {
         RequestResult result = getRequest("api/customers");
 
-        assertThat(result.getStatusCode(), is(401));
+        assertThat(result.getStatusCode(), is(authFailureCode()));
     }
 
     @Test
@@ -55,7 +56,8 @@ public class Hw6 extends AbstractHw {
 
         getRequest("api/logout", cookie);
 
-        assertThat(getRequest("api/customers", cookie).getStatusCode(), is(401));
+        assertThat(getRequest("api/customers", cookie).getStatusCode(),
+                is(authFailureCode()));
     }
 
     @Test
@@ -64,10 +66,14 @@ public class Hw6 extends AbstractHw {
         Optional<Cookie> cookie = loginWith("user", "user");
 
         assertThat(getRequest("api/users", cookie).getStatusCode(),
-                anyOf(equalTo(401), equalTo(403)));
+                is(authFailureCode()));
         assertThat(getRequest("api/users/jill", cookie).getStatusCode(),
-                anyOf(equalTo(401), equalTo(403)));
+                is(authFailureCode()));
         assertThat(getRequest("api/users/user", cookie).getStatusCode(), is(200));
+    }
+
+    private AnyOf<Integer> authFailureCode() {
+        return anyOf(equalTo(401), equalTo(403));
     }
 
     @Test
