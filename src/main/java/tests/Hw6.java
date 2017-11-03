@@ -13,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Optional;
 
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -61,8 +63,10 @@ public class Hw6 extends AbstractHw {
     public void userCanAccessOnlyOwnInfo() {
         Optional<Cookie> cookie = loginWith("user", "user");
 
-        assertThat(getRequest("api/users", cookie).getStatusCode(), is(401));
-        assertThat(getRequest("api/users/jill", cookie).getStatusCode(), is(401));
+        assertThat(getRequest("api/users", cookie).getStatusCode(),
+                anyOf(equalTo(401), equalTo(403)));
+        assertThat(getRequest("api/users/jill", cookie).getStatusCode(),
+                anyOf(equalTo(401), equalTo(403)));
         assertThat(getRequest("api/users/user", cookie).getStatusCode(), is(200));
     }
 
