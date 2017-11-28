@@ -37,7 +37,6 @@ public class Runner {
             case "hw4" : return Hw4.class;
             case "hw5" : return Hw5.class;
             case "hw6" : return Hw6.class;
-            case "hw7" : return Hw7.class;
             default: throw new IllegalStateException("unknown tag: " + tag);
         }
     }

@@ -1,18 +1,14 @@
 {
-  "name": "hw6",
+  "name": "hw7",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
   "devDependencies": {
-    "phantomjs": "^2.1.7",
-    "protractor": "^4.0.11",
-    "request": "^2.78.0"
+    "protractor": "^5.2.0",
+    "request": "^2.83.0"
   },
   "scripts": {
-    "test": "protractor ./conf.js",
-    "update": "webdriver-manager update",
-    "start": "webdriver-manager start"
-  },
-  "author": "",
-  "license": "ISC"
+    "postinstall": "npm run update_webdriver",
+    "update_webdriver": "webdriver-manager update",
+    "hw7": "protractor ./conf.js --specs spec/hw7-spec.js"
+  }
 }

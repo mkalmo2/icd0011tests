@@ -1,29 +1,26 @@
+
 exports.config = {
-    seleniumAddress: 'http://localhost:4444/wd/hub',
+
+    allScriptsTimeout: 11000,
 
     capabilities: {
-        'browserName': 'phantomjs',
-        'phantomjs.cli.args': ['--ignore-ssl-errors=true']
+        browserName: 'chrome',
+
+        chromeOptions: {
+            args: [ "--headless", "--disable-gpu", "--window-size=1920,1080" ]
+        }
     },
 
-    specs: ['hw6-spec.js'],
-
-    // useAllAngular2AppRoots: true,
+    directConnect: true,
 
     jasmineNodeOpts: {
-        showColors: true
+        showColors: true,
+        defaultTimeoutInterval: 30000
     },
 
     onPrepare: function() {
-        jasmine.getEnv().addReporter(getReporter());
+        jasmine.getEnv()
+            .addReporter(require('./spec/helpers/points-reporter').reporter);
     }
 
 };
-
-function getReporter() {
-    return {
-        suiteDone: function(result) {
-            console.log('Suite ' + result.description + ' done');
-        }
-    };
-}

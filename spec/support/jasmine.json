@@ -1,0 +1,9 @@
+{
+  "spec_dir": "spec",
+  "spec_files": [
+    "hw3-spec.js"
+  ],
+  "helpers": [
+    "helpers/reporter.js"
+  ]
+}

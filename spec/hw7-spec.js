@@ -2,14 +2,16 @@
 
 var BASE_URL = 'http://localhost:8080/';
 
-describe('hw6 UI', function () {
+describe('Application part 7', function () {
+
+    it = extendIt(it); fit = extendIt(fit); xit = extendIt(xit);
 
     beforeEach(function() {
         goTo(BASE_URL);
     });
 
-    // @PenaltyOnTestFailure(10)
     it('menu links should change url', function () {
+
         expect(currentUrl()).toBe(getUrl('#/search'));
 
         link('menu-new').click();
@@ -19,9 +21,9 @@ describe('hw6 UI', function () {
         link('menu-search').click();
 
         expect(currentUrl()).toBe(getUrl('#/search'));
-    });
 
-    // @PenaltyOnTestFailure(10)
+    }).deductedOnFailure(10);
+
     it('should insert customer with name, code and type', function () {
 
         link('menu-new').click();
@@ -37,12 +39,12 @@ describe('hw6 UI', function () {
 
         expect(currentUrl()).toBe(getUrl('#/search'));
 
-        expect(element(by.tagName('table')).getText()).toContain(sampleData.firstName);
-        expect(element(by.tagName('table')).getText()).toContain(sampleData.lastName);
-        expect(element(by.tagName('table')).getText()).toContain(sampleData.code);
-    });
+        expect(element(by.tagName('body')).getText()).toContain(sampleData.firstName);
+        expect(element(by.tagName('body')).getText()).toContain(sampleData.lastName);
+        expect(element(by.tagName('body')).getText()).toContain(sampleData.code);
 
-    // @PenaltyOnTestFailure(2)
+    }).deductedOnFailure(10);
+
     it('should have a link for deleting inserted users', function () {
 
         deleteAllData();
@@ -53,11 +55,11 @@ describe('hw6 UI', function () {
 
         link('delete-button-' + sampleData.code).click();
 
-        expect(element(by.tagName('table')).getText()).toContain('Mari');
-        expect(element(by.tagName('table')).getText()).not.toContain(sampleData.lastName);
-    });
+        expect(element(by.tagName('body')).getText()).toContain('Mari');
+        expect(element(by.tagName('body')).getText()).not.toContain(sampleData.lastName);
 
-    // @PenaltyOnTestFailure(2)
+    }).deductedOnFailure(2);
+
     it('should allow adding and deleting phones', function () {
 
         link('menu-new').click();
@@ -73,9 +75,9 @@ describe('hw6 UI', function () {
 
         link('delete-phone-link-0').click();
         expect(input('phone-value-0').getValue()).toBe('123');
-    });
 
-    // @PenaltyOnTestFailure(1)
+    }).deductedOnFailure(10);
+
     it('should filter by first name, last name and code', function () {
 
         deleteAllData();
@@ -88,9 +90,9 @@ describe('hw6 UI', function () {
         input('search-string').setValue('ar');
 
         expect(getFirstNamesFromList()).toEqual(['Mari', 'Jaak', 'Tiina']);
-    });
 
-    // @PenaltyOnTestFailure(1)
+    }).deductedOnFailure(1);
+
     it('should show errors when submitting invalid data', function () {
 
         deleteAllData();
@@ -103,13 +105,11 @@ describe('hw6 UI', function () {
             expect(codes).toContain('Size');
             expect(codes).toContain('Pattern');
         });
-    });
+
+    }).deductedOnFailure(1);
+
 
 });
-
-
-
-
 
 
 
@@ -164,9 +164,7 @@ function link(id) {
 }
 
 function goTo(addr) {
-    browser.get(addr).then(function () {
-        browser.manage().window().setSize(1920, 1080);
-    });
+    browser.get(addr);
 }
 
 function select(id) {
@@ -225,24 +223,29 @@ function getUrl(path) {
     return BASE_URL.replace(/\/$/, '') + '/' + path;
 }
 
-var request = require('request');
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-
 function deleteAllData() {
     protractor.promise.controlFlow().execute(deleteAllDataSub);
 }
 
 function deleteAllDataSub() {
+
+    var request = require('request');
+
     var defer = protractor.promise.defer();
     request.delete(
-        getUrl('/api/customers'),
+        getUrl('api/customers'),
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 defer.fulfill();
             } else {
-                defer.reject();
+                defer.reject(error);
             }
         }
     );
+
     return defer.promise;
+}
+
+function extendIt(it) {
+    return require('./helpers/points-reporter').extendIt(it);
 }
