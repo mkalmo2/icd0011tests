@@ -25,6 +25,7 @@ public class Hw2 extends AbstractHw {
         postForm("customers/form", getForm("name", "Jack"));
         postForm("customers/form", getForm("name", "Jill"));
 
+
         List<Customer> customers = getList("api/customers");
 
         assertThat(customers.size(), greaterThanOrEqualTo(2));
