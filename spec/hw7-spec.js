@@ -7,9 +7,28 @@ describe('Application part 7', function () {
     it = extendIt(it); fit = extendIt(fit); xit = extendIt(xit);
 
     beforeEach(function() {
-        goTo(BASE_URL);
+        // goTo(BASE_URL);
+        goTo('http://localhost:8080/ex4.html');
     });
 
+    fit('hello', function () {
+
+        input('input1').setValue('hello');
+
+        link('button1').click();
+
+        expectTextOnPage('hello1');
+
+    }).deductedOnFailure(10);
+
+    function expectTextOnPage(text) {
+        var until = protractor.ExpectedConditions;
+        var body = element(by.tagName('body'));
+        var message = 'Could not find text: ' + text;
+        browser.wait(until.textToBePresentInElement(body, text), 200, message);
+    }
+    
+    
     it('menu links should change url', function () {
 
         expect(currentUrl()).toBe(getUrl('#/search'));

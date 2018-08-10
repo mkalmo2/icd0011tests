@@ -19,6 +19,9 @@ exports.config = {
     },
 
     onPrepare: function() {
+
+        browser.ignoreSynchronization = true;
+
         jasmine.getEnv()
             .addReporter(require('./spec/helpers/points-reporter').reporter);
     }
