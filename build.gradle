@@ -15,8 +15,8 @@ dependencies {
     compile 'junit:junit:4.12'
     compile 'org.hamcrest:hamcrest-all:1.3'
 
-    compileOnly('org.projectlombok:lombok:1.18.0')
-    annotationProcessor 'org.projectlombok:lombok:1.18.0'
+    compileOnly('org.projectlombok:lombok:1.18.2')
+    annotationProcessor 'org.projectlombok:lombok:1.18.2'
 }
 
 tasks.withType(JavaExec) {
@@ -25,9 +25,6 @@ tasks.withType(JavaExec) {
 
 task runTest(type: JavaExec) {
     main = 'util.Runner'
-    if (project.hasProperty("tag")) {
-        args tag
-    }
 
     classpath = sourceSets.main.runtimeClasspath
 }
