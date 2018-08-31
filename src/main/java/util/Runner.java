@@ -31,6 +31,10 @@ public class Runner {
         junit.addListener(new RunListener() {
             @Override
             public void testFailure(Failure failure) throws Exception {
+                if (failure.getException().getClass() != AssertionError.class) {
+                    counter.subtract(maxPoints);
+                }
+
                 PenaltyOnTestFailure penalty = failure.getDescription().getAnnotation(PenaltyOnTestFailure.class);
                 counter.subtract(penalty.value());
                 System.out.println("   " + failure.getDescription() + " failed");
