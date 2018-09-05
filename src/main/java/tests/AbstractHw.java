@@ -1,8 +1,6 @@
 package tests;
 
-import tests.model.Customer;
-import tests.model.ValidationError;
-import tests.model.ValidationErrors;
+import tests.model.*;
 import util.LoggingFilter;
 import util.NopX509TrustManager;
 import util.Parameter;
@@ -19,6 +17,7 @@ import javax.ws.rs.core.Response;
 import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AbstractHw {
 
@@ -88,15 +87,47 @@ public abstract class AbstractHw {
         return new Parameter(key, String.valueOf(value));
     }
 
-    protected List<ValidationError> postJson(String path, Customer data) {
+    protected Result<Order> postOrder(String path, Order data) {
         Response response = getTarget()
                 .path(path)
                 .request()
                 .post(Entity.entity(data, MediaType.APPLICATION_JSON));
 
-        return response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
-                ? response.readEntity(ValidationErrors.class).getErrors()
-                : Collections.emptyList();
+        Result<Order> result = new Result<>();
+
+        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
+        } else {
+            result.setValue(response.readEntity(Order.class));
+        }
+
+        return result;
+    }
+
+    protected boolean sendRequest(String path) {
+        Response response = getClient()
+                .target(path)
+                .request()
+                .get();
+
+        return Response.Status.OK.getStatusCode() == response.getStatus();
+    }
+
+    protected Result<Order> postOrderFromJsonString(String path, String data) {
+        Response response = getTarget()
+                .path(path)
+                .request()
+                .post(Entity.entity(data, MediaType.APPLICATION_JSON));
+
+        Result<Order> result = new Result<>();
+
+        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
+        } else {
+            result.setValue(response.readEntity(Order.class));
+        }
+
+        return result;
     }
 
     protected void delete(String path, Parameter ... parameters) {

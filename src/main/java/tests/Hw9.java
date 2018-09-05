@@ -6,7 +6,7 @@ import util.PenaltyOnTestFailure;
 import static org.junit.Assert.fail;
 
 
-public class Hw5 extends AbstractHw {
+public class Hw9 extends AbstractHw {
 
     private final String BASE_URL = "http://localhost:8080/";
 
