@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.*;
 
 public class Hw2 extends AbstractHw {
 
-    private final String BASE_URL = "http://localhost:8080/";
+    private final String BASE_URL = "http://localhost:8080";
 
     @Test
     @PenaltyOnTestFailure(10)
@@ -20,7 +20,7 @@ public class Hw2 extends AbstractHw {
         assertThat(isSuccess, is(true));
     }
 
-        @Test
+    @Test
     @PenaltyOnTestFailure(10)
     public void readsInputAndProducesOutputWithId() {
         String order = "{ \"orderNumber\": \"A123\" }";
@@ -31,6 +31,18 @@ public class Hw2 extends AbstractHw {
 
         assertThat(result.getValue().getOrderNumber(), is("A123"));
         assertThat(result.getValue().getId(), is(notNullValue()));
+    }
+
+    @Test
+    @PenaltyOnTestFailure(10)
+    public void ignoresWhiteSpace() {
+        String order = " {\"orderNumber\":\"A123\"} ";
+
+        Result<Order> result = postOrderFromJsonString("api/orders", order);
+
+        assertThat(result.isSuccess(), is(true));
+
+        assertThat(result.getValue().getOrderNumber(), is("A123"));
     }
 
     @Test
