@@ -1,6 +1,8 @@
 package tests;
 
-import tests.model.*;
+import tests.model.Order;
+import tests.model.Result;
+import tests.model.ValidationErrors;
 import util.LoggingFilter;
 import util.NopX509TrustManager;
 import util.Parameter;
@@ -15,9 +17,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.SecureRandom;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class AbstractHw {
 
@@ -45,17 +45,7 @@ public abstract class AbstractHw {
         return getClient().target(getBaseUrl());
     }
 
-    protected Customer getCustomer(String firstName, String lastName, String code) {
-        return new Customer(null, firstName, lastName, null, code);
-    }
-
-    protected Customer getCustomer(String firstName) {
-        Customer customer = new Customer();
-        customer.setFirstName(firstName);
-        return customer;
-    }
-
-    protected List<Customer> getList(String path, Parameter... parameters) {
+    protected List<Order> getList(String path, Parameter... parameters) {
         WebTarget target = getTarget().path(path);
 
         for (Parameter p : parameters) {
@@ -64,11 +54,11 @@ public abstract class AbstractHw {
 
         return target
                 .request(MediaType.APPLICATION_JSON)
-                .get(new GenericType<List<Customer>>() {});
+                .get(new GenericType<List<Order>>() {});
     }
 
-    protected Customer getOne(String path, Parameter... parameters) {
-        return getOne(path, Customer.class, parameters);
+    protected Order getOne(String path, Parameter... parameters) {
+        return getOne(path, Order.class, parameters);
     }
 
     protected <T> T getOne(String path, Class<T> clazz, Parameter ... parameters) {

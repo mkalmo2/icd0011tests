@@ -1,11 +1,8 @@
 package tests.model;
 
-import lombok.ToString;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
 public class Result <T> {
     private boolean isSuccess;
     private T value;

@@ -8,6 +8,7 @@ import util.PenaltyOnTestFailure;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +22,7 @@ public class Hw1 {
 
     @BeforeClass
     public static void prepare() throws IOException {
-        var path = Paths.get(infoJsonPath, "info.json");
+        Path path = Paths.get(infoJsonPath, "info.json");
 
         info = new ObjectMapper().readValue(Files.newInputStream(path), Info.class);
     }
