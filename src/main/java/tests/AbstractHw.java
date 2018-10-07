@@ -1,5 +1,7 @@
 package tests;
 
+import org.junit.Rule;
+import org.junit.rules.Timeout;
 import tests.model.Order;
 import tests.model.Result;
 import tests.model.ValidationErrors;
@@ -20,6 +22,9 @@ import java.security.SecureRandom;
 import java.util.List;
 
 public abstract class AbstractHw {
+
+    @Rule
+    public Timeout globalTimeout = Timeout.seconds(10);
 
     protected abstract String getBaseUrl();
 
