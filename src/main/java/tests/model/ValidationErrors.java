@@ -10,4 +10,7 @@ public class ValidationErrors {
         return errors;
     }
 
+    public void setErrors(List<ValidationError> errors) {
+        this.errors = errors;
+    }
 }
