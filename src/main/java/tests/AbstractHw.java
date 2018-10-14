@@ -41,7 +41,7 @@ public abstract class AbstractHw {
             sslcontext.init(null, new TrustManager[] {new NopX509TrustManager()}, new SecureRandom());
             return ClientBuilder.newBuilder()
                     .register(new LoggingFilter(isDebug))
-                    .register(ContentTypeFilter.class)
+//                    .register(ContentTypeFilter.class)
                     .sslContext(sslcontext).hostnameVerifier((s1, s2) -> true).build();
         } catch (Exception e) {
             throw new RuntimeException(e);
