@@ -5,6 +5,7 @@ import org.junit.rules.Timeout;
 import tests.model.Order;
 import tests.model.Result;
 import tests.model.ValidationErrors;
+import util.ContentTypeFilter;
 import util.LoggingFilter;
 import util.NopX509TrustManager;
 import util.Parameter;
@@ -40,6 +41,7 @@ public abstract class AbstractHw {
             sslcontext.init(null, new TrustManager[] {new NopX509TrustManager()}, new SecureRandom());
             return ClientBuilder.newBuilder()
                     .register(new LoggingFilter(isDebug))
+                    .register(ContentTypeFilter.class)
                     .sslContext(sslcontext).hostnameVerifier((s1, s2) -> true).build();
         } catch (Exception e) {
             throw new RuntimeException(e);
