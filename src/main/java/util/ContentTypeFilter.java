@@ -1,11 +1,13 @@
 package util;
 
+import javax.annotation.Priority;
 import javax.ws.rs.client.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+@Priority(0)
 public class ContentTypeFilter implements ClientResponseFilter {
 
     @Override
