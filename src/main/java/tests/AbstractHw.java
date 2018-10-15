@@ -41,7 +41,7 @@ public abstract class AbstractHw {
             sslcontext.init(null, new TrustManager[] {new NopX509TrustManager()}, new SecureRandom());
             return ClientBuilder.newBuilder()
                     .register(new LoggingFilter(isDebug))
-//                    .register(ContentTypeFilter.class)
+                    .register(ContentTypeFilter.class)
                     .sslContext(sslcontext).hostnameVerifier((s1, s2) -> true).build();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -87,7 +87,7 @@ public abstract class AbstractHw {
     protected Result<Order> postOrder(String path, Order data) {
         Response response = getTarget()
                 .path(path)
-                .request()
+                .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(data, MediaType.APPLICATION_JSON));
 
         Result<Order> result = new Result<>();
@@ -105,6 +105,7 @@ public abstract class AbstractHw {
         Response response = getClient()
                 .target(path)
                 .request()
+                .header("x-is-base-url-request", "true")
                 .get();
 
         return Response.Status.OK.getStatusCode() == response.getStatus();
@@ -113,7 +114,7 @@ public abstract class AbstractHw {
     protected Result<Order> postOrderFromJsonString(String path, String data) {
         Response response = getTarget()
                 .path(path)
-                .request()
+                .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(data, MediaType.APPLICATION_JSON));
 
         Result<Order> result = new Result<>();

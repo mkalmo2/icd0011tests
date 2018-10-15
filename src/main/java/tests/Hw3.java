@@ -81,7 +81,7 @@ public class Hw3 extends AbstractHw {
     private Long postForm(String path, Form form) {
         Response response = getTarget()
                 .path(path)
-                .request()
+                .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED));
 
         return response.readEntity(Long.class);
