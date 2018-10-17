@@ -1,5 +1,8 @@
 package tests.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderRow {
     private String itemName;
     private Integer quantity;
