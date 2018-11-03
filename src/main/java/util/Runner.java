@@ -6,7 +6,6 @@ import org.junit.runner.notification.RunListener;
 import tests.*;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 
 public class Runner {
 
@@ -20,6 +19,7 @@ public class Runner {
         if (parts.length == 2) {
             Hw1.infoJsonPath = parts[1];
             Hw7.pathToProjectSourceCode = parts[1];
+            Hw8.pathToProjectSourceCode = parts[1];
         }
 
         new Runner().run(tag);
@@ -66,6 +66,8 @@ public class Runner {
             case "hw5" : return Hw5.class;
             case "hw6" : return Hw6.class;
             case "hw7" : return Hw7.class;
+            case "hw8" : return Hw8.class;
+            case "hw9" : return Hw9.class;
             default: throw new IllegalStateException("unknown tag: " + tag);
         }
     }
