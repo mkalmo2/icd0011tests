@@ -16,7 +16,7 @@ public class ContentTypeFilter implements ClientResponseFilter {
 
         String accept = getFirst(request.getHeaders().get("Accept"));
 
-        if (!accept.equals("application/json")) {
+        if (!accept.contains("json")) {
             return;
         }
 
