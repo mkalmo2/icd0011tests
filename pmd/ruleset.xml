@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ruleset name="Favorites"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>icd0011 ruleset</description>
+
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="ShortVariable" />
+        <exclude name="MethodArgumentCouldBeFinal" />
+        <exclude name="LocalVariableCouldBeFinal" />
+        <exclude name="AtLeastOneConstructor" />
+        <exclude name="ShortClassName" />
+        <exclude name="OnlyOneReturn" />
+    </rule>
+
+    <rule ref="category/java/codestyle.xml/ClassNamingConventions">
+        <properties>
+            <property name="classPattern" value="[A-Z][a-zA-Z0-9]*" />
+            <property name="abstractClassPattern" value="[A-Z][a-zA-Z0-9]*" />
+            <property name="interfacePattern" value="[A-Z][a-zA-Z0-9]*" />
+            <property name="enumPattern" value="[A-Z][a-zA-Z0-9]*" />
+            <property name="utilityClassPattern" value="([A-Z][a-zA-Z0-9]*)?(Utils?|Helper)" />
+        </properties>
+    </rule>
+
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="JUnitAssertionsShouldIncludeMessage" />
+        <exclude name="AvoidReassigningParameters" />
+        <exclude name="JUnitTestContainsTooManyAsserts" />
+        <exclude name="UnusedFormalParameter" />
+    </rule>
+
+
+    <rule ref="category/java/design.xml" >
+        <exclude name="ImmutableField" />
+        <exclude name="LawOfDemeter" />
+        <exclude name="DataClass" />
+        <exclude name="UseUtilityClass" />
+        <exclude name="AvoidThrowingRawExceptionTypes" />
+        <exclude name="LoosePackageCoupling" />
+    </rule>
+
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="BeanMembersShouldSerialize" />
+        <exclude name="MissingSerialVersionUID" />
+        <exclude name="DataflowAnomalyAnalysis" />
+        <exclude name="AvoidLiteralsInIfCondition" />
+        <exclude name="CloseResource" />
+    </rule>
+
+    <rule ref="category/java/security.xml" />
+
+</ruleset>
