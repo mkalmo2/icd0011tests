@@ -6,20 +6,22 @@ import org.junit.runner.notification.RunListener;
 import tests.*;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 public class Runner {
 
     public static void main(String[] args) {
-        String argString = args[0];
 
-        String[] parts = argString.split("\\s+");
+        if (args.length < 1) {
+            throw new RuntimeException("Provide tag as an argument");
+        }
 
-        String tag = parts[0];
+        String tag = args[0];
 
-        if (parts.length == 2) {
-            Hw1.infoJsonPath = parts[1];
-            Hw7.pathToProjectSourceCode = parts[1];
-            Hw8.pathToProjectSourceCode = parts[1];
+        if (args.length == 2) {
+            Hw1.infoJsonPath = args[1];
+            Hw7.pathToProjectSourceCode = args[1];
+            Hw8.pathToProjectSourceCode = args[1];
         }
 
         new Runner().run(tag);
