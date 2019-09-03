@@ -40,6 +40,7 @@
         <exclude name="DataClass" />
         <exclude name="UseUtilityClass" />
         <exclude name="AvoidThrowingRawExceptionTypes" />
+        <exclude name="AvoidCatchingGenericException" />
         <exclude name="LoosePackageCoupling" />
     </rule>
 
