@@ -53,8 +53,8 @@ public class Hw1 {
 
     @Test
     @PenaltyOnTestFailure(3)
-    public void uniIdFieldIsFilled() {
-        assertThat(info.getUniId().length(), is(greaterThan(1)));
+    public void readTheRulesIsMarkedTrue() {
+        assertThat(info.isiHaveReadTheRulesOfTheCourse(), is(true));
     }
 
 }

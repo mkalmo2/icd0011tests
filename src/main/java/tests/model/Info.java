@@ -5,7 +5,7 @@ public class Info {
     private String lastName;
     private String passwordHash;
     private String formOfStudy;
-    private String uniId;
+    private boolean iHaveReadTheRulesOfTheCourse;
 
     public String getFirstName() {
         return firstName;
@@ -39,11 +39,11 @@ public class Info {
         this.formOfStudy = formOfStudy;
     }
 
-    public String getUniId() {
-        return uniId;
+    public boolean isiHaveReadTheRulesOfTheCourse() {
+        return iHaveReadTheRulesOfTheCourse;
     }
 
-    public void setUniId(String uniId) {
-        this.uniId = uniId;
+    public void setiHaveReadTheRulesOfTheCourse(boolean iHaveReadTheRulesOfTheCourse) {
+        this.iHaveReadTheRulesOfTheCourse = iHaveReadTheRulesOfTheCourse;
     }
 }
