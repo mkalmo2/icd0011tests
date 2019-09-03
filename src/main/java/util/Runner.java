@@ -20,8 +20,6 @@ public class Runner {
 
         if (args.length == 2) {
             Hw1.infoJsonPath = args[1];
-            Hw7.pathToProjectSourceCode = args[1];
-            Hw8.pathToProjectSourceCode = args[1];
         }
 
         new Runner().run(tag);
