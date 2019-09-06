@@ -21,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractHw {
 
@@ -31,8 +32,14 @@ public abstract class AbstractHw {
 
     private static boolean isDebug = false;
 
+    protected static String pathToSourceCode = "";
+
     protected static void setDebug(boolean debug) {
         isDebug = debug;
+    }
+
+    public static void setPathToSourceCode(String path) {
+        pathToSourceCode = path;
     }
 
     private static Client getClient() {
@@ -96,6 +103,24 @@ public abstract class AbstractHw {
             result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
         } else {
             result.setValue(response.readEntity(Order.class));
+        }
+
+        return result;
+    }
+
+    protected Result<Map<String, String>> postMap(String path, Map<String, String> data) {
+        Response response = getTarget()
+                .path(path)
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(data, MediaType.APPLICATION_JSON));
+
+        Result<Map<String, String>> result = new Result<>();
+
+        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
+        } else {
+            result.setValue(response.readEntity(
+                    new GenericType<Map<String, String>>() {}));
         }
 
         return result;

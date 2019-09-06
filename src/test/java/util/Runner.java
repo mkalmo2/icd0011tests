@@ -6,7 +6,6 @@ import org.junit.runner.notification.RunListener;
 import tests.*;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 
 public class Runner {
 
@@ -19,7 +18,7 @@ public class Runner {
         String tag = args[0];
 
         if (args.length == 2) {
-            Hw1.infoJsonPath = args[1];
+            AbstractHw.setPathToSourceCode(args[1]);
         }
 
         new Runner().run(tag);
@@ -57,18 +56,26 @@ public class Runner {
         return tag.equals("hw1") ? 6 : 10;
     }
 
-    private Class<?> resolveClass(String tag) {
+    private static Class<?> resolveClass(String tag) {
         switch (tag) {
-            case "hw1" : return Hw1.class;
-            case "hw2" : return Hw2.class;
-            case "hw3" : return Hw3.class;
-            case "hw4" : return Hw4.class;
-            case "hw5" : return Hw5.class;
-            case "hw6" : return Hw6.class;
-            case "hw7" : return Hw7.class;
-            case "hw8" : return Hw8.class;
-            case "hw9" : return Hw9.class;
+            case "hw1" : return loadClass("tests.Hw1");
+            case "hw2" : return loadClass("tests.Hw2");
+            case "hw3" : return loadClass("tests.Hw3");
+            case "hw4" : return loadClass("tests.Hw4");
+            case "hw5" : return loadClass("tests.Hw5");
+            case "hw6" : return loadClass("tests.Hw6");
+            case "hw7" : return loadClass("tests.Hw7");
+            case "hw8" : return loadClass("tests.Hw8");
+            case "hw9" : return loadClass("tests.Hw9");
             default: throw new IllegalStateException("unknown tag: " + tag);
+        }
+    }
+
+    private static Class<?> loadClass(String className) {
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

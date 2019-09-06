@@ -21,5 +21,5 @@ dependencies {
 task runTest(type: JavaExec) {
     main = 'util.Runner'
 
-    classpath = sourceSets.main.runtimeClasspath
+    classpath = sourceSets.test.runtimeClasspath
 }

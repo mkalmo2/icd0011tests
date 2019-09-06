@@ -14,15 +14,13 @@ import java.nio.file.Paths;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class Hw1 {
-
-    public static String infoJsonPath;
+public class Hw1 extends AbstractHw {
 
     private static Info info;
 
     @BeforeClass
     public static void prepare() throws IOException {
-        Path path = Paths.get(infoJsonPath, "info.json");
+        Path path = Paths.get(pathToSourceCode, "info.json");
 
         info = new ObjectMapper().readValue(Files.newInputStream(path), Info.class);
     }
@@ -55,6 +53,11 @@ public class Hw1 {
     @PenaltyOnTestFailure(3)
     public void readTheRulesIsMarkedTrue() {
         assertThat(info.isiHaveReadTheRulesOfTheCourse(), is(true));
+    }
+
+    @Override
+    protected String getBaseUrl() {
+        throw new RuntimeException("not implemented");
     }
 
 }
