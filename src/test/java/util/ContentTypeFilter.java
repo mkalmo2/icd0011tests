@@ -12,7 +12,7 @@ public class ContentTypeFilter implements ClientResponseFilter {
 
     @Override
     public void filter(ClientRequestContext request,
-                       ClientResponseContext response) throws IOException {
+                       ClientResponseContext response) {
 
         String accept = getFirst(request.getHeaders().get("Accept"));
 
@@ -22,7 +22,9 @@ public class ContentTypeFilter implements ClientResponseFilter {
 
         String contentType = getFirst(response.getHeaders().get("Content-Type"));
 
-        if (contentType.isEmpty()) {
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Http status: " + response.getStatus());
+        } else if (contentType.isEmpty()) {
             throw new RuntimeException("Content-Type is missing");
         } else if (!contentType.contains("json")) {
             throw new RuntimeException("Unexpected Content-Type: " + contentType);

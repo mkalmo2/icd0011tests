@@ -5,7 +5,11 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import tests.*;
 
+import java.io.PrintStream;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Runner {
 
@@ -25,22 +29,44 @@ public class Runner {
     }
 
     private void run(String tag) {
-        Integer maxPoints = getMaxPoints(tag);
+
+        PrintStream out = System.out;
+
+        System.setOut(new PrintStream(new NullOutputStream()));
+
+        final PointHolder pointHolder = new PointHolder(getMaxPoints(tag));
 
         JUnitCore junit = new JUnitCore();
-        final PointCounter counter = new PointCounter(maxPoints);
         junit.addListener(new RunListener() {
             @Override
-            public void testFailure(Failure failure) throws Exception {
-                if (failure.getException().getClass() != AssertionError.class) {
-                    counter.subtract(maxPoints);
-                    System.out.println(failure.getException());
-                    return;
+            public void testFailure(Failure failure) {
+
+                IfThisTestFailsMaxPoints annotation = failure.getDescription()
+                        .getAnnotation(IfThisTestFailsMaxPoints.class);
+
+                if (annotation != null) {
+                    pointHolder.capPointsTo(annotation.value());
+                } else {
+                    pointHolder.capPointsTo(0);
                 }
 
-                PenaltyOnTestFailure penalty = failure.getDescription().getAnnotation(PenaltyOnTestFailure.class);
-                counter.subtract(penalty.value());
-                System.out.println("   " + failure.getDescription() + " failed");
+                out.println("   " + failure.getDescription() + " failed");
+                out.println(failure.getException());
+
+                String trace = Arrays.asList(failure.getException().getStackTrace())
+                        .stream()
+                        .filter(f -> ! f.getClassName().startsWith("junit."))
+                        .filter(f -> ! f.getClassName().startsWith("jdk."))
+                        .filter(f -> ! f.getClassName().startsWith("java."))
+                        .filter(f -> ! f.getClassName().startsWith("org."))
+                        .filter(f -> ! f.getClassName().startsWith("util.Runner"))
+                        .filter(f -> ! f.getClassName().startsWith("tests.AbstractHw"))
+                        .map(f -> f.toString())
+                        .collect(Collectors.joining("\n"));
+
+                out.println(trace);
+
+                out.println("\n\n");
             }
         });
 
@@ -48,8 +74,8 @@ public class Runner {
 
         String pattern = "RESULT: {0} of {1} POINTS";
 
-        System.out.println(MessageFormat.format(pattern,
-                counter.getResult(), maxPoints));
+        out.println(MessageFormat.format(pattern,
+                pointHolder.points, getMaxPoints(tag)));
     }
 
     private Integer getMaxPoints(String tag) {
@@ -57,18 +83,14 @@ public class Runner {
     }
 
     private static Class<?> resolveClass(String tag) {
-        switch (tag) {
-            case "hw1" : return loadClass("tests.Hw1");
-            case "hw2" : return loadClass("tests.Hw2");
-            case "hw3" : return loadClass("tests.Hw3");
-            case "hw4" : return loadClass("tests.Hw4");
-            case "hw5" : return loadClass("tests.Hw5");
-            case "hw6" : return loadClass("tests.Hw6");
-            case "hw7" : return loadClass("tests.Hw7");
-            case "hw8" : return loadClass("tests.Hw8");
-            case "hw9" : return loadClass("tests.Hw9");
-            default: throw new IllegalStateException("unknown tag: " + tag);
+        if (!List.of(
+                "hw1", "hw2", "hw3", "hw4", "hw5",
+                "hw6", "hw7", "hw8", "hw9").contains(tag)) {
+
+            throw new IllegalStateException("unknown tag: " + tag);
         }
+
+        return loadClass("tests.Hw" + tag.charAt(2));
     }
 
     private static Class<?> loadClass(String className) {
@@ -94,4 +116,17 @@ public class Runner {
             count -= howMany;
         }
     }
+
+    private static class PointHolder {
+        int points;
+
+        PointHolder(int max) {
+            this.points = max;
+        }
+
+        void capPointsTo(int newMax) {
+            points = Math.min(points, newMax);
+        }
+    }
+
 }

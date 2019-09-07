@@ -3,7 +3,7 @@ package tests;
 import org.junit.Test;
 import tests.model.Order;
 import tests.model.Result;
-import util.PenaltyOnTestFailure;
+import util.IfThisTestFailsMaxPoints;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,6 @@ public class Hw2 extends AbstractHw {
     private final String BASE_URL = "http://localhost:8080";
 
     @Test
-    @PenaltyOnTestFailure(10)
     public void baseUrlResponds() {
         boolean isSuccess = sendRequest(getBaseUrl());
 
@@ -26,7 +25,6 @@ public class Hw2 extends AbstractHw {
     }
 
     @Test
-    @PenaltyOnTestFailure(10)
     public void readsInputAndProducesOutputWithId() {
         String order = "{ \"orderNumber\": \"A123\" }";
 
@@ -39,7 +37,6 @@ public class Hw2 extends AbstractHw {
     }
 
     @Test
-    @PenaltyOnTestFailure(10)
     public void ignoresWhiteSpace() {
         String order = " {\"orderNumber\":\"A123\"} ";
 
@@ -51,7 +48,6 @@ public class Hw2 extends AbstractHw {
     }
 
     @Test
-    @PenaltyOnTestFailure(10)
     public void eachOrderGetsDifferentId() {
 
         String order1 = "{ \"orderNumber\": \"A123\" }";
@@ -72,7 +68,6 @@ public class Hw2 extends AbstractHw {
     }
 
     @Test
-    @PenaltyOnTestFailure(10)
     public void nullOnIdFieldIsIgnored() {
 
         String order = "{ \"id\": null, \"orderNumber\": \"A456\" }";
@@ -87,7 +82,7 @@ public class Hw2 extends AbstractHw {
     }
 
     @Test
-    @PenaltyOnTestFailure(4)
+    @IfThisTestFailsMaxPoints(6)
     public void parserCanHandleArbitraryKeys() {
 
         Map<String, String> inputMap = getRandomMap();
