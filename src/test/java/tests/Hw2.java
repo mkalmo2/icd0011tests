@@ -93,19 +93,21 @@ public class Hw2 extends AbstractHw {
 
         Map<String, String> outputMap = result.getValue();
 
-        assertThat(inputMap.size(), is(outputMap.size()));
+        assertThat(outputMap.size(), is(inputMap.size()));
 
-        assertCorrectlyTransformed(inputMap, outputMap);
+        assertCorrectlyTransformed(outputMap, inputMap);
     }
 
-    private void assertCorrectlyTransformed(Map<String, String> inputMap,
-                                            Map<String, String> outputMap) {
+    private void assertCorrectlyTransformed(Map<String, String> outputMap,
+                                            Map<String, String> inputMap) {
 
         for (String key : inputMap.keySet()) {
-            String reversed = new StringBuilder(key).reverse().toString();
-            String keyLengthAsString = String.valueOf(key.length());
+            String reversedKey = new StringBuilder(key)
+                    .reverse().toString();
+            String reversedValue = new StringBuilder(inputMap.get(key))
+                    .reverse().toString();
 
-            assertThat(outputMap.get(reversed), is(keyLengthAsString));
+            assertThat(outputMap.get(reversedKey), is(reversedValue));
         }
     }
 
@@ -115,7 +117,7 @@ public class Hw2 extends AbstractHw {
         int count = new Random().nextInt(5) + 5;
 
         for (int i = 0; i < count; i++) {
-            map.put(getRandomString(), String.valueOf(0));
+            map.put(getRandomString(), getRandomString());
         }
 
         return map;
