@@ -83,7 +83,7 @@ public class Runner {
     }
 
     private static Class<?> resolveClass(String tag) {
-        if (!List.of(
+        if (!Arrays.asList(
                 "hw1", "hw2", "hw3", "hw4", "hw5",
                 "hw6", "hw7", "hw8", "hw9").contains(tag)) {
 
