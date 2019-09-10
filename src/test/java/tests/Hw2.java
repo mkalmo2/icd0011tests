@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.*;
 
 public class Hw2 extends AbstractHw {
 
-    private final String BASE_URL = "http://localhost:8080";
+    private final String baseUrl = "http://localhost:8080";
 
     @Test
     public void baseUrlResponds() {
@@ -126,7 +126,7 @@ public class Hw2 extends AbstractHw {
     private String getRandomString() {
         Random random = new Random();
 
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < random.nextInt(6) + 2; i++) {
             int code = random.nextInt(23);
             result.append(Character.toChars(code + 65));
@@ -137,7 +137,7 @@ public class Hw2 extends AbstractHw {
 
     @Override
     protected String getBaseUrl() {
-        return BASE_URL;
+        return baseUrl;
     }
 
 }
