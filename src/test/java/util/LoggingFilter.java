@@ -18,7 +18,7 @@ public class LoggingFilter implements ClientRequestFilter, ClientResponseFilter 
     }
 
     @Override
-    public void filter(ClientRequestContext context) throws IOException {
+    public void filter(ClientRequestContext context) {
         if (!isDebug) {
             return;
         }
@@ -49,9 +49,18 @@ public class LoggingFilter implements ClientRequestFilter, ClientResponseFilter 
         System.out.println("-----------------------------------------------------------");
     }
 
-    public static String readInputStream(InputStream is) throws IOException {
-        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(is))) {
-            return buffer.lines().collect(Collectors.joining("\n"));
+    private static String readInputStream(InputStream is) throws IOException {
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
+
+        StringBuilder sb = new StringBuilder();
+        while (true) {
+            int c = buffer.read();
+            if (c == -1) {
+                break;
+            }
+            sb.append(Character.toChars(c));
         }
+
+        return sb.toString();
     }
 }
