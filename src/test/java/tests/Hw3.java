@@ -31,7 +31,7 @@ public class Hw3 extends AbstractHw {
 
         assertThat(result.isSuccess(), is(true));
 
-        Long idOfPostedOrder = result.getValue().getId();
+        String idOfPostedOrder = result.getValue().getId();
 
         Order order = getOne("api/orders", param("id", idOfPostedOrder));
 
@@ -49,7 +49,7 @@ public class Hw3 extends AbstractHw {
 
         assertThat(result.isSuccess(), is(true));
 
-        Long idOfPostedOrder = result.getValue().getId();
+        String idOfPostedOrder = result.getValue().getId();
 
         Order read = getOne("api/orders", param("id", idOfPostedOrder));
 

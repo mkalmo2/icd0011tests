@@ -7,7 +7,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Order {
-    private Long id;
+    private String id;
     private String orderNumber;
     private List<OrderRow> orderRows;
 
@@ -17,11 +17,11 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
