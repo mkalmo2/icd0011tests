@@ -1,6 +1,7 @@
 package tests.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderRow {
@@ -35,5 +36,15 @@ public class OrderRow {
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
     }
 }

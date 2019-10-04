@@ -67,6 +67,23 @@ public class Hw5 extends AbstractHw {
         assertThat(allIds, not(hasItems(idOfPostedOrder)));
     }
 
+    @Test
+    public void doesNotAllowSqlInjection() {
+        String name = "\"';,.:\n";
+
+        Order order = new Order(name);
+        order.add(new OrderRow(name, 0, 0));
+
+        Result<Order> result = postOrder("api/orders", order);
+
+        String idOfPostedOrder = result.getValue().getId();
+
+        Order readOrder = getOne("api/orders", param("id", idOfPostedOrder));
+        readOrder.setId(null);
+
+        assertThat(readOrder, equalTo(order));
+    }
+
     @Override
     protected String getBaseUrl() {
         return baseUrl;

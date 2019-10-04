@@ -1,6 +1,7 @@
 package tests.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +53,15 @@ public class Order {
                 ", orderNumber='" + orderNumber + '\'' +
                 ", orderRows=" + orderRows +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
     }
 }
