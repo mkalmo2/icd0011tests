@@ -3,6 +3,7 @@ package util;
 import javax.annotation.Priority;
 import javax.ws.rs.client.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -22,7 +23,7 @@ public class ContentTypeFilter implements ClientResponseFilter {
 
         String contentType = getFirst(response.getHeaders().get("Content-Type"));
 
-        if (response.getStatus() != 200) {
+        if (!Arrays.asList(200, 400).contains(response.getStatus())) {
             throw new RuntimeException("Http status: " + response.getStatus());
         } else if (contentType.isEmpty()) {
             throw new RuntimeException("Content-Type is missing");

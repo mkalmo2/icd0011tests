@@ -32,6 +32,7 @@
         <exclude name="AvoidReassigningParameters" />
         <exclude name="JUnitTestContainsTooManyAsserts" />
         <exclude name="UnusedFormalParameter" />
+        <exclude name="GuardLogStatement" />
     </rule>
 
 

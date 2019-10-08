@@ -5,10 +5,7 @@ import org.junit.rules.Timeout;
 import tests.model.Order;
 import tests.model.Result;
 import tests.model.ValidationErrors;
-import util.ContentTypeFilter;
-import util.LoggingFilter;
-import util.NopX509TrustManager;
-import util.Parameter;
+import util.*;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -19,9 +16,17 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.SecureRandom;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertFalse;
 
 public abstract class AbstractHw {
 
@@ -32,14 +37,44 @@ public abstract class AbstractHw {
 
     private static boolean isDebug = false;
 
-    protected static String pathToSourceCode = "";
+    protected static String frameworkPathToSourceCode = "";
 
     protected static void setDebug(boolean debug) {
         isDebug = debug;
     }
 
     public static void setPathToSourceCode(String path) {
-        pathToSourceCode = path;
+        frameworkPathToSourceCode = path;
+    }
+
+    protected void assertProjectSourcePathIsSet(String path) {
+        if (!frameworkPathToSourceCode.isEmpty()) {
+            return;
+        }
+
+        assertFalse("Please assign the path to your project source code directory " +
+                        "to the field 'pathToProjectSourceCode'",
+                path == null || path.isEmpty());
+    }
+
+    protected void assertDoesNotContainString(List<JavaFileReader.File> files,
+                                            String targetString) {
+
+        for (JavaFileReader.File file : files) {
+            String message = MessageFormat.format(
+                    "file {0} contains string ''{1}''",
+                    file.name, targetString);
+
+            assertThat(message, file.contents, not(containsString(targetString)));
+        }
+    }
+
+    protected List<JavaFileReader.File> getProjectSource(String pathToProjectSourceCode) {
+        String path = frameworkPathToSourceCode.isEmpty()
+                ? pathToProjectSourceCode
+                : frameworkPathToSourceCode;
+
+        return new JavaFileReader().getAllFilesFrom(Paths.get(path));
     }
 
     private static Client getClient() {

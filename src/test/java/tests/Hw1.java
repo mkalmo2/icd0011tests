@@ -20,7 +20,7 @@ public class Hw1 extends AbstractHw {
 
     @BeforeClass
     public static void prepare() throws IOException {
-        Path path = Paths.get(pathToSourceCode, "info.json");
+        Path path = Paths.get(frameworkPathToSourceCode, "info.json");
 
         info = new ObjectMapper().readValue(Files.newInputStream(path), Info.class);
     }

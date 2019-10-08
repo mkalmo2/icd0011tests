@@ -10,7 +10,16 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class JavaFileReader {
 
-    public String getAllFilesFrom(Path startingDir) {
+    public static class File {
+        public final String name;
+        public final String contents;
+        public File(String name, String contents) {
+            this.name = name;
+            this.contents = contents;
+        }
+    }
+
+    public List<File> getAllFilesFrom(Path startingDir) {
         JavaFileFinder finder = new JavaFileFinder();
 
         try {
@@ -20,8 +29,8 @@ public class JavaFileReader {
         }
 
         return finder.getFilesFound().stream()
-                .map(path -> readFile(path))
-                .collect(Collectors.joining("\n"));
+                .map(path -> new File(path.getFileName().toString(), readFile(path)))
+                .collect(Collectors.toList());
     }
 
     private String readFile(Path path) {
