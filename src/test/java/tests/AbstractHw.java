@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.Rule;
 import org.junit.rules.Timeout;
+import tests.model.Installment;
 import tests.model.Order;
 import tests.model.Result;
 import tests.model.ValidationErrors;
@@ -83,6 +84,7 @@ public abstract class AbstractHw {
             sslcontext.init(null, new TrustManager[] {new NopX509TrustManager()}, new SecureRandom());
             return ClientBuilder.newBuilder()
                     .register(new LoggingFilter(isDebug))
+                    .register(JacksonConfig.class)
                     .register(ContentTypeFilter.class)
                     .sslContext(sslcontext).hostnameVerifier((s1, s2) -> true).build();
         } catch (Exception e) {
@@ -94,7 +96,10 @@ public abstract class AbstractHw {
         return getClient().target(getBaseUrl());
     }
 
-    protected List<Order> getList(String path, Parameter... parameters) {
+    private <T> List<T> getList(String path,
+                                GenericType<List<T>> type,
+                                Parameter... parameters) {
+
         WebTarget target = getTarget().path(path);
 
         for (Parameter p : parameters) {
@@ -103,7 +108,15 @@ public abstract class AbstractHw {
 
         return target
                 .request(MediaType.APPLICATION_JSON)
-                .get(new GenericType<List<Order>>() {});
+                .get(type);
+    }
+
+    protected List<Installment> getInstallmentList(String path, Parameter... parameters) {
+        return getList(path, new GenericType<List<Installment>>() {}, parameters);
+    }
+
+    protected List<Order> getList(String path, Parameter... parameters) {
+        return getList(path, new GenericType<List<Order>>() {}, parameters);
     }
 
     protected Order getOne(String path, Parameter... parameters) {

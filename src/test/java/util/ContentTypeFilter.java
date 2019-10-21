@@ -2,7 +2,6 @@ package util;
 
 import javax.annotation.Priority;
 import javax.ws.rs.client.*;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
