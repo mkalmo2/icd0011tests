@@ -115,7 +115,7 @@ public class Hw7 extends AbstractHw {
     @IfThisTestFailsMaxPoints(6)
     public void remainderDividedBetweenLastPayments() {
         String actual = stringify(generateInstallmentsFor(
-                11, "2019-11-04", "2020-03-01"));
+                11, "2019-11-04", "2020-01-01"));
 
         String expected = "[3, 2019-11-04], [4, 2019-12-01], [4, 2020-01-01]";
 
