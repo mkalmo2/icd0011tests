@@ -33,6 +33,7 @@
         <exclude name="JUnitTestContainsTooManyAsserts" />
         <exclude name="UnusedFormalParameter" />
         <exclude name="GuardLogStatement" />
+        <exclude name="UnusedImports" />
     </rule>
 
 
