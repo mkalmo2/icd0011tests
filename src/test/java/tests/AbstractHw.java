@@ -123,6 +123,10 @@ public abstract class AbstractHw {
         return getOne(path, Order.class, parameters);
     }
 
+    protected String getResponseAsString(String path) {
+        return getOne(path, String.class, new Parameter[] {});
+    }
+
     protected <T> T getOne(String path, Class<T> clazz, Parameter ... parameters) {
         WebTarget target = getTarget().path(path);
 

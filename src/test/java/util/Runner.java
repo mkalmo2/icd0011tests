@@ -8,7 +8,6 @@ import tests.*;
 import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class Runner {
@@ -32,7 +31,7 @@ public class Runner {
 
         PrintStream out = System.out;
 
-        System.setOut(new PrintStream(new NullOutputStream()));
+//        System.setOut(new PrintStream(new NullOutputStream()));
 
         final PointHolder pointHolder = new PointHolder(getMaxPoints(tag));
 
@@ -74,23 +73,23 @@ public class Runner {
 
         String pattern = "RESULT: {0} of {1} POINTS";
 
-        out.println(MessageFormat.format(pattern,
-                pointHolder.points, getMaxPoints(tag)));
+        out.println(MessageFormat.format(
+                pattern, pointHolder.points, getMaxPoints(tag)));
     }
 
     private Integer getMaxPoints(String tag) {
-        return tag.equals("hw1") ? 6 : 10;
+        return 5;
     }
 
     private static Class<?> resolveClass(String tag) {
         if (!Arrays.asList(
-                "hw1", "hw2", "hw3", "hw4", "hw5",
-                "hw6", "hw7", "hw8", "hw9").contains(tag)) {
+                "hw01", "hw02", "hw03", "hw04", "hw05",
+                "hw06", "hw07", "hw08", "hw09", "hw10").contains(tag)) {
 
             throw new IllegalStateException("unknown tag: " + tag);
         }
 
-        return loadClass("tests.Hw" + tag.charAt(2));
+        return loadClass("tests.Hw" + tag.substring(2));
     }
 
     private static Class<?> loadClass(String className) {
@@ -98,22 +97,6 @@ public class Runner {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private static class PointCounter {
-        int count;
-
-        public PointCounter(int max) {
-            this.count = max;
-        }
-
-        public int getResult() {
-            return Math.max(0, count);
-        }
-
-        public void subtract(int howMany) {
-            count -= howMany;
         }
     }
 
@@ -128,5 +111,4 @@ public class Runner {
             points = Math.min(points, newMax);
         }
     }
-
 }
