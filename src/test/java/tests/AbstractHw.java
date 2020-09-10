@@ -17,7 +17,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.text.MessageFormat;
@@ -36,12 +35,12 @@ public abstract class AbstractHw {
 
     protected abstract String getBaseUrl();
 
-    private static boolean isDebug = false;
+    private static boolean isLoggingEnabled = false;
 
     protected static String frameworkPathToSourceCode = "";
 
-    protected static void setDebug(boolean debug) {
-        isDebug = debug;
+    protected static void enableLogging() {
+        isLoggingEnabled = true;
     }
 
     public static void setPathToSourceCode(String path) {
@@ -83,7 +82,7 @@ public abstract class AbstractHw {
             SSLContext sslcontext = SSLContext.getInstance("TLS");
             sslcontext.init(null, new TrustManager[] {new NopX509TrustManager()}, new SecureRandom());
             return ClientBuilder.newBuilder()
-                    .register(new LoggingFilter(isDebug))
+                    .register(new LoggingFilter(isLoggingEnabled))
                     .register(JacksonConfig.class)
                     .register(ContentTypeFilter.class)
                     .sslContext(sslcontext).hostnameVerifier((s1, s2) -> true).build();
@@ -160,19 +159,22 @@ public abstract class AbstractHw {
         return result;
     }
 
-    protected Result<Map<String, String>> postMap(String path, Map<String, String> data) {
+    protected Result<Map<String, Object>> postMap(
+            String path,
+            Map<String, Object> data) {
+
         Response response = getTarget()
                 .path(path)
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(data, MediaType.APPLICATION_JSON));
 
-        Result<Map<String, String>> result = new Result<>();
+        Result<Map<String, Object>> result = new Result<>();
 
         if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
         } else {
             result.setValue(response.readEntity(
-                    new GenericType<Map<String, String>>() {}));
+                    new GenericType<Map<String, Object>>() {}));
         }
 
         return result;
