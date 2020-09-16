@@ -34,6 +34,7 @@
         <exclude name="UnusedFormalParameter" />
         <exclude name="GuardLogStatement" />
         <exclude name="UnusedImports" />
+        <exclude name="LiteralsFirstInComparisons" />
     </rule>
 
 
@@ -57,5 +58,12 @@
     </rule>
 
     <rule ref="category/java/security.xml" />
+
+    <rule ref="category/java/design.xml/CyclomaticComplexity">
+        <properties>
+            <property name="classReportLevel" value="120" />
+            <property name="methodReportLevel" value="15" />
+        </properties>
+    </rule>
 
 </ruleset>
