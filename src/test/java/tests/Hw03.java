@@ -5,10 +5,10 @@ import tests.model.Order;
 import tests.model.Result;
 import util.IfThisTestFailsMaxPoints;
 import util.JsonValue;
+import util.SampleDataUtil;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -88,7 +88,7 @@ public class Hw03 extends AbstractHw {
     @IfThisTestFailsMaxPoints(3)
     public void parserCanHandleArbitraryKeys() {
 
-        Map<String, JsonValue> randomMap = getRandomMap();
+        Map<String, JsonValue> randomMap = SampleDataUtil.getRandomMap();
 
         Map<String, Object> inputMap = toObjectMap(randomMap);
 
@@ -134,37 +134,6 @@ public class Hw03 extends AbstractHw {
         }
 
         return outputMap;
-    }
-
-    private Map<String, JsonValue> getRandomMap() {
-        Map<String, JsonValue> map = new HashMap<>();
-
-        int count = new Random().nextInt(5) + 8;
-
-        for (int i = 0; i < count; i++) {
-            map.put(getRandomString(), getRandomValue());
-        }
-
-        return map;
-    }
-
-    private JsonValue getRandomValue() {
-        Random random = new Random();
-        return random.nextInt(2) > 0
-                ? new JsonValue(getRandomString())
-                : new JsonValue(random.nextInt(5));
-    }
-
-    private String getRandomString() {
-        Random random = new Random();
-
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < random.nextInt(4) + 2; i++) {
-            int code = random.nextInt(23);
-            result.append(Character.toChars(code + 'a'));
-        }
-
-        return result.toString();
     }
 
     @Override
