@@ -75,7 +75,9 @@ public class Hw04 extends AbstractHw {
                 .request(MediaType.TEXT_PLAIN)
                 .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED));
 
-        return response.readEntity(Long.class);
+        String contents = response.readEntity(String.class);
+
+        return Long.parseLong(contents.trim());
     }
 
     @Override
