@@ -15,6 +15,7 @@
         <exclude name="AtLeastOneConstructor" />
         <exclude name="ShortClassName" />
         <exclude name="OnlyOneReturn" />
+        <exclude name="CallSuperInConstructor" />
     </rule>
 
     <rule ref="category/java/codestyle.xml/ClassNamingConventions">
