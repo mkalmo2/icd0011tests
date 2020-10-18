@@ -31,7 +31,7 @@ import static org.junit.Assert.assertFalse;
 public abstract class AbstractHw {
 
     @Rule
-    public Timeout globalTimeout = Timeout.seconds(10);
+    public Timeout globalTimeout = Timeout.seconds(20);
 
     protected abstract String getBaseUrl();
 
