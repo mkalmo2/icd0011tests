@@ -1,25 +1,35 @@
 package util;
 
-import java.util.Optional;
-
 public class RequestResult {
 
     private Integer statusCode;
-    private Optional<String> authorization = Optional.empty();
+    private String authorization;
+    private String contents;
 
-    public Optional<String> getAuthorization() {
+    public String getAuthorization() {
         return authorization;
     }
 
-    public void setAuthorization(Optional<String> authorization) {
+    public RequestResult withAuthorization(String authorization) {
         this.authorization = authorization;
+        return this;
+    }
+
+    public RequestResult withContents(String contents) {
+        this.contents = contents;
+        return this;
     }
 
     public Integer getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(Integer statusCode) {
+    public String getContents() {
+        return contents;
+    }
+
+    public RequestResult withStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
+        return this;
     }
 }
