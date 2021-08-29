@@ -14,14 +14,20 @@ public class Runner {
 
     public static void main(String[] args) {
 
+        String tag;
+
         if (args.length < 1) {
             throw new RuntimeException("Provide tag as an argument");
+        } else {
+            tag = args[0];
         }
 
-        String tag = args[0];
-
-        if (args.length == 2) {
+        if (args.length >= 2) {
             AbstractHw.setPathToSourceCode(args[1]);
+        }
+
+        if (args.length >= 3) {
+            AbstractHw.setArg1(args[2]);
         }
 
         new Runner().run(tag);
@@ -31,7 +37,7 @@ public class Runner {
 
         PrintStream out = System.out;
 
-//        System.setOut(new PrintStream(new NullOutputStream()));
+        System.setOut(new PrintStream(new NullOutputStream()));
 
         final PointHolder pointHolder = new PointHolder(getMaxPoints(tag));
 

@@ -1,17 +1,24 @@
 package tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.csv.CSVRecord;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import tests.model.Info;
+import util.CsvUtil;
+import util.IfThisTestFailsMaxPoints;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.fail;
 
 public class Hw01 extends AbstractHw {
 
@@ -60,6 +67,37 @@ public class Hw01 extends AbstractHw {
         assertThat(content, containsString("*.class"));
         assertThat(content, containsString("*.war"));
         assertThat(content, containsString("*.jar"));
+    }
+
+    @Test
+    @IfThisTestFailsMaxPoints(3)
+    public void nameIsWrittenAsInOis() throws Exception {
+        String fullName = fullName(info.getFirstName(), info.getLastName());
+
+        if (!getDeclaredNames().contains(fullName)) {
+
+            fail(String.format("There is no declaration with name '%s' in Õis (as of 01.09.2021)."
+                    + " If you declared the course later and the name is correct you will get"
+                    + " the points on 19.09.2021", fullName));
+        }
+    }
+
+    private String fullName(String first, String last) {
+        return first + " " + last;
+    }
+
+    private Set<String> getDeclaredNames() throws Exception {
+        String[] headers = { "õppuri kood", "UNI-ID", "eesnimi", "perekonnanimi"};
+
+        var loaded = CsvUtil.readCSVFile(
+                new FileReader(arg1), headers, ';');
+
+        Set<String> names = new HashSet<>();
+        for (CSVRecord record : loaded) {
+            names.add(fullName(record.get("eesnimi"), record.get("perekonnanimi")));
+        }
+
+        return names;
     }
 
     private static String getFileContents(String fileName) {

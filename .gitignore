@@ -4,6 +4,8 @@
 /.gradle
 /.idea
 
+/*.csv
+
 *.iml
 *.class
 *.war

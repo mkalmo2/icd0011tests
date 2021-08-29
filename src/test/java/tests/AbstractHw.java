@@ -39,12 +39,18 @@ public abstract class AbstractHw {
 
     protected static String frameworkPathToSourceCode = "";
 
+    protected static String arg1 = "";
+
     protected static void enableLogging() {
         isLoggingEnabled = true;
     }
 
     public static void setPathToSourceCode(String path) {
         frameworkPathToSourceCode = path;
+    }
+
+    public static void setArg1(String value) {
+        arg1 = value;
     }
 
     protected void assertProjectSourcePathIsSet(String path) {
