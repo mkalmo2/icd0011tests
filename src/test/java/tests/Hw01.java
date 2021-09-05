@@ -61,7 +61,7 @@ public class Hw01 extends AbstractHw {
     }
 
     @Test
-    public void projectContainsCorrectGitIgnoreFile() throws IOException {
+    public void projectContainsCorrectGitIgnoreFile() {
         String content = getFileContents(".gitignore");
 
         assertThat(content, containsString("*.class"));
@@ -76,7 +76,7 @@ public class Hw01 extends AbstractHw {
 
         if (!getDeclaredNames().contains(fullName)) {
 
-            fail(String.format("There is no declaration with name '%s' in Õis (as of 01.09.2021)."
+            fail(String.format("There is no declaration with name '%s' in Õis (as of 05.09.2021)."
                     + " If you declared the course later and the name is correct you will get"
                     + " the points on 19.09.2021", fullName));
         }
