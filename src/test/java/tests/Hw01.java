@@ -52,7 +52,7 @@ public class Hw01 extends AbstractHw {
 
     @Test
     public void formOfStudyIsValid() {
-        assertThat(info.getFormOfStudy(), isOneOf("S", "O"));
+        assertThat(info.getFormOfStudy(), oneOf("S", "O"));
     }
 
     @Test

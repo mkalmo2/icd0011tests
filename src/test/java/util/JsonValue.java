@@ -1,9 +1,15 @@
 package util;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public class JsonValue {
 
     private String stringValue;
     private Integer integerValue;
+    private Map<String, JsonValue> mapValue;
 
     public JsonValue() {
     }
@@ -16,8 +22,16 @@ public class JsonValue {
         this.integerValue = value;
     }
 
+    public JsonValue(Map<String, JsonValue> value) {
+        this.mapValue = value;
+    }
+
     public boolean isInteger() {
         return integerValue != null;
+    }
+
+    public boolean isMap() {
+        return mapValue != null;
     }
 
     public boolean isString() {
@@ -25,21 +39,58 @@ public class JsonValue {
     }
 
     public Integer getInteger() {
-        return integerValue == null
-                ? null
-                : integerValue;
+        return getChecked(integerValue);
+    }
+
+    public Map<String, JsonValue> getMap() {
+        return getChecked(mapValue);
     }
 
     public String getString() {
-        return stringValue == null
-                ? null
-                : stringValue;
+        return getChecked(stringValue);
+    }
+
+    private <T> T getChecked(T value) {
+        if (value == null) {
+            throw new RuntimeException("value is null");
+        }
+
+        return value;
     }
 
     public Object getValue() {
-        return stringValue == null
-                ? integerValue
-                : stringValue;
+        if (stringValue != null) {
+            return stringValue;
+        } else if (integerValue != null) {
+            return integerValue;
+        } else if (mapValue != null) {
+            return toObjectMap(mapValue);
+        } else {
+            throw new RuntimeException("unexpected");
+        }
+    }
+
+    public Map<String, Object> toObjectMap(
+            Map<String, JsonValue> inputMap) {
+
+        Map<String, Object> outputMap = new HashMap<>();
+
+        for (String key : inputMap.keySet()) {
+
+            JsonValue value = inputMap.get(key);
+
+            if (value.isString()) {
+                outputMap.put(key, value.getString());
+            } else if (value.isInteger()) {
+                outputMap.put(key, value.getInteger());
+            } else if (value.isMap()) {
+                outputMap.put(key, toObjectMap(value.getMap()));
+            } else {
+                throw new IllegalArgumentException("unexpected type");
+            }
+        }
+
+        return outputMap;
     }
 
     public String formatValue() {
@@ -48,7 +99,7 @@ public class JsonValue {
         } else if (isInteger()) {
             return String.valueOf(integerValue);
         } else {
-            return "null";
+            return getValue().toString();
         }
     }
 

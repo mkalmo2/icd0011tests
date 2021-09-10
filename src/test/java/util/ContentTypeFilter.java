@@ -1,7 +1,7 @@
 package util;
 
-import javax.annotation.Priority;
-import javax.ws.rs.client.*;
+import jakarta.annotation.Priority;
+import jakarta.ws.rs.client.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
