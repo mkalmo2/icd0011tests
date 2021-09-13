@@ -8,6 +8,7 @@ import tests.*;
 import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Runner {
@@ -58,15 +59,14 @@ public class Runner {
                 out.println("   " + failure.getDescription() + " failed");
                 out.println(failure.getException());
 
-                String trace = Arrays.asList(failure.getException().getStackTrace())
-                        .stream()
+                String trace = Arrays.stream(failure.getException().getStackTrace())
                         .filter(f -> ! f.getClassName().startsWith("junit."))
                         .filter(f -> ! f.getClassName().startsWith("jdk."))
                         .filter(f -> ! f.getClassName().startsWith("java."))
                         .filter(f -> ! f.getClassName().startsWith("org."))
                         .filter(f -> ! f.getClassName().startsWith("util.Runner"))
                         .filter(f -> ! f.getClassName().startsWith("tests.AbstractHw"))
-                        .map(f -> f.toString())
+                        .map(StackTraceElement::toString)
                         .collect(Collectors.joining("\n"));
 
                 out.println(trace);
@@ -84,7 +84,11 @@ public class Runner {
     }
 
     private Integer getMaxPoints(String tag) {
-        return 5;
+        Map<String, Integer> pointsMap =
+                Map.of("hw03", 3,
+                       "hw03a", 2);
+
+        return pointsMap.getOrDefault(tag, 5);
     }
 
     private static Class<?> resolveClass(String tag) {
