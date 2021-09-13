@@ -89,7 +89,7 @@ public class Runner {
 
     private static Class<?> resolveClass(String tag) {
         if (!Arrays.asList(
-                "hw01", "hw02", "hw03", "hw04", "hw05",
+                "hw01", "hw02", "hw03", "hw03a", "hw04", "hw05",
                 "hw06", "hw07", "hw08", "hw09", "hw10").contains(tag)) {
 
             throw new IllegalStateException("unknown tag: " + tag);
