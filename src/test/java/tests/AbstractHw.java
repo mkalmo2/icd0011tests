@@ -63,10 +63,10 @@ public abstract class AbstractHw {
                 path == null || path.isEmpty());
     }
 
-    protected void assertDoesNotContainString(List<JavaFileReader.File> files,
+    protected void assertDoesNotContainString(List<FileReader.File> files,
                                             String targetString) {
 
-        for (JavaFileReader.File file : files) {
+        for (FileReader.File file : files) {
             String message = MessageFormat.format(
                     "file {0} contains string ''{1}''",
                     file.name, targetString);
@@ -75,12 +75,13 @@ public abstract class AbstractHw {
         }
     }
 
-    protected List<JavaFileReader.File> getProjectSource(String pathToProjectSourceCode) {
+    protected List<FileReader.File> getProjectSource(String pathToProjectSourceCode) {
         String path = frameworkPathToSourceCode.isEmpty()
                 ? pathToProjectSourceCode
                 : frameworkPathToSourceCode;
 
-        return new JavaFileReader().getAllFilesFrom(Paths.get(path));
+        return new FileReader().getAllFilesAndContentsFrom(
+                Paths.get(path), List.of(".java"));
     }
 
     private static Client getClient() {

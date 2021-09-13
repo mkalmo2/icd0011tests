@@ -53,3 +53,9 @@ task runTest(type: JavaExec) {
 
     classpath = sourceSets.test.runtimeClasspath
 }
+
+task runCommonChecks(type: JavaExec) {
+    mainClass = 'tests.CommonChecks'
+
+    classpath = sourceSets.test.runtimeClasspath
+}
