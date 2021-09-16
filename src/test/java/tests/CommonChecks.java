@@ -6,10 +6,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyString;
-import static org.hamcrest.Matchers.is;
-
 public class CommonChecks {
 
     public static void main(String[] args) {
@@ -18,10 +14,10 @@ public class CommonChecks {
             throw new RuntimeException("Provide source directory as an argument");
         }
 
-        new CommonChecks().shouldUseSpringInsteadOfLowerLeverClasses(args[0]);
+        new CommonChecks().repositoryShouldNotContainDerivedFiles(args[0]);
     }
 
-    private void shouldUseSpringInsteadOfLowerLeverClasses(String sourcePath) {
+    private void repositoryShouldNotContainDerivedFiles(String sourcePath) {
 
         String fileList = new FileFinder()
                 .getAllFilesFrom(Paths.get(sourcePath), List.of(".class", ".jar", ".war"))
@@ -30,9 +26,13 @@ public class CommonChecks {
                 .filter(fileName -> !fileName.equals("gradle-wrapper.jar"))
                 .collect(Collectors.joining(", "));
 
-        assertThat("Project repository should not contain files with extensions:" +
-                        " class, jar or war",
-                fileList, is(emptyString()));
-    }
+        if ("".equals(fileList)) {
+            return;
+        }
 
+        String message = "Project repository should not contain files with extensions:" +
+                " class, jar or war but there are: " + fileList;
+
+        throw new AssertionError(message);
+    }
 }
