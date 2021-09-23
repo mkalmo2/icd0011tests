@@ -44,7 +44,7 @@ public class SampleJsonProvider {
                 : new JsonValue(rnd.nextInt(50));
     }
 
-    private String getRandomString(int minLength, int maxLength) {
+    public String getRandomString(int minLength, int maxLength) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < minLength + rnd.nextInt(maxLength - minLength + 1); i++) {
             int code = rnd.nextInt(23);
