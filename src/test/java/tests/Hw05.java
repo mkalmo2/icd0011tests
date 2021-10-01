@@ -3,7 +3,7 @@ package tests;
 import org.junit.Test;
 import tests.model.Order;
 import tests.model.Result;
-import util.SampleJsonProvider;
+import util.SampleDataProvider;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,7 +59,7 @@ public class Hw05 extends AbstractHw {
     }
 
     private String getRandomString() {
-        return new SampleJsonProvider(0).getRandomString(3, 5);
+        return new SampleDataProvider(0).getRandomString(3, 5);
     }
 
     @Override

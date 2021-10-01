@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Order {
     private String id;
@@ -46,6 +47,22 @@ public class Order {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Order)) {
+            return false;
+        }
+        Order order = (Order) o;
+        return Objects.equals(id, order.id)
+                && Objects.equals(orderNumber, order.orderNumber)
+                && Objects.equals(orderRows, order.orderRows);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
@@ -54,13 +71,4 @@ public class Order {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return 1;
-    }
 }

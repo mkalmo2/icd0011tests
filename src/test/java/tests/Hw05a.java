@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import tests.model.Order;
 import tests.model.PoolInfo;
-import util.SampleJsonProvider;
+import util.SampleDataProvider;
 
 import java.util.List;
 import java.util.concurrent.*;
@@ -114,7 +114,7 @@ public class Hw05a extends AbstractHw {
     }
 
     private String getRandomString() {
-        return new SampleJsonProvider(0).getRandomString(5, 7);
+        return new SampleDataProvider(0).getRandomString(5, 7);
     }
 
     @Override

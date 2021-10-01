@@ -3,6 +3,8 @@ package tests.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+import java.util.Objects;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderRow {
     private String itemName;
@@ -38,9 +40,16 @@ public class OrderRow {
                 '}';
     }
 
+
     @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+    public boolean equals(Object o) {
+        if (!(o instanceof OrderRow)) {
+            return false;
+        }
+        OrderRow orderRow = (OrderRow) o;
+        return Objects.equals(itemName, orderRow.itemName)
+                && Objects.equals(quantity, orderRow.quantity)
+                && Objects.equals(price, orderRow.price);
     }
 
     @Override

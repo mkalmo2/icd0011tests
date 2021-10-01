@@ -3,7 +3,7 @@ package tests;
 import org.junit.Test;
 import tests.model.Result;
 import util.JsonValue;
-import util.SampleJsonProvider;
+import util.SampleDataProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class Hw03a extends AbstractHw {
     @Test
     public void parserCanHandleArbitraryKeys() {
 
-        JsonValue data = new SampleJsonProvider(5).getRandomData();
+        JsonValue data = new SampleDataProvider(5).getRandomData();
 
         Map<String, Object> inputMap = toObjectMap(data);
 

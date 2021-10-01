@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class SampleJsonProvider {
+public class SampleDataProvider {
 
     private final Random rnd = new Random();
     private final int maxDepth;
 
-    public SampleJsonProvider(int maxDepth) {
+    public SampleDataProvider(int maxDepth) {
         this.maxDepth = maxDepth;
     }
 
