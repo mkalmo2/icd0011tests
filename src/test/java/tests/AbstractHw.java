@@ -26,7 +26,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assume.assumeTrue;
 
 public abstract class AbstractHw {
 
@@ -53,14 +53,14 @@ public abstract class AbstractHw {
         arg1 = value;
     }
 
-    protected void assertProjectSourcePathIsSet(String path) {
+    protected void assumeProjectSourcePathIsSet(String path) {
         if (!frameworkPathToSourceCode.isEmpty()) {
             return;
         }
 
-        assertFalse("Please assign the path to your project source code directory " +
+        assumeTrue("Please assign the path to your project source code directory " +
                         "to the field 'pathToProjectSourceCode'",
-                path == null || path.isEmpty());
+                path != null && !path.isEmpty());
     }
 
     protected void assertDoesNotContainString(List<FileReader.File> files,
@@ -222,6 +222,10 @@ public abstract class AbstractHw {
         }
 
         target.request().delete();
+    }
+
+    protected String getRandomString(int minLength, int maxLength) {
+        return new SampleDataProvider(0).getRandomString(minLength, maxLength);
     }
 
 }

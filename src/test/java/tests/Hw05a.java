@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import tests.model.Order;
 import tests.model.PoolInfo;
-import util.SampleDataProvider;
 
 import java.util.List;
 import java.util.concurrent.*;
@@ -49,7 +48,7 @@ public class Hw05a extends AbstractHw {
     public void databaseQueriesAreBlockedWhenAllConnectionsAreInUse()
             throws ExecutionException, InterruptedException {
 
-        String orderNumber = getRandomString();
+        String orderNumber = getRandomString(5, 7);
         postOrder("api/orders", new Order(orderNumber));
 
         makeAsyncQuery("api/orders/slow");
@@ -111,10 +110,6 @@ public class Hw05a extends AbstractHw {
         Callable<List<Order>> c1 = () -> getList(url);
 
         return pool.submit(c1);
-    }
-
-    private String getRandomString() {
-        return new SampleDataProvider(0).getRandomString(5, 7);
     }
 
     @Override

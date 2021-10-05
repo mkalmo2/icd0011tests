@@ -3,7 +3,6 @@ package tests;
 import org.junit.Test;
 import tests.model.Order;
 import tests.model.Result;
-import util.SampleDataProvider;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +24,7 @@ public class Hw05 extends AbstractHw {
     @Test
     public void canGetListOfAllOrders() {
 
-        String orderNumber1 = getRandomString();
+        String orderNumber1 = getRandomString(3, 5);
         String orderNumber2 = orderNumber1 + "x";
 
         postOrder("api/orders", new Order(orderNumber1));
@@ -44,7 +43,7 @@ public class Hw05 extends AbstractHw {
 
     @Test
     public void canGetOrderById() {
-        String orderNumber = getRandomString();
+        String orderNumber = getRandomString(3, 5);
 
         Result<Order> result = postOrder("api/orders", new Order(orderNumber));
 
@@ -56,10 +55,6 @@ public class Hw05 extends AbstractHw {
 
         assertThat(order.getOrderNumber(), is(orderNumber));
         assertThat(order.getId(), is(idOfPostedOrder));
-    }
-
-    private String getRandomString() {
-        return new SampleDataProvider(0).getRandomString(3, 5);
     }
 
     @Override

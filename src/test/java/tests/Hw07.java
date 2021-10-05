@@ -4,17 +4,20 @@ import org.junit.Test;
 import tests.model.Order;
 import tests.model.OrderRow;
 import tests.model.Result;
+import util.FileReader;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
-
-public class Hw06 extends AbstractHw {
+public class Hw07 extends AbstractHw {
 
     private final String baseUrl = "http://localhost:8080/";
+
+    private final String pathToProjectSourceCode = "";
 
     @Test
     public void baseUrlResponds() {
@@ -24,30 +27,24 @@ public class Hw06 extends AbstractHw {
     }
 
     @Test
-    public void returnsPostedOrderWithAddedId() {
-        Order order = new Order("A123");
+    public void findsOrderById() {
+        String randomString = getRandomString(4, 6);
 
-        Result<Order> result = postOrder("api/orders", order);
+        String orderNumber = randomString + "o1";
+        String orderItem1 = randomString + "i1";
+        String orderItem2 = randomString + "i2";
 
-        String idOfPostedOrder = result.getValue().getId();
-
-        assertThat(idOfPostedOrder, is(notNullValue()));
-    }
-
-    @Test
-    public void addsOrderWithOrderRows() {
-        Order order = new Order("A456");
-        order.add(new OrderRow("CPU", 2, 100));
-        order.add(new OrderRow("Motherboard", 3, 60));
-
-        Result<Order> result = postOrder("api/orders", order);
+        Result<Order> result = postOrder("api/orders",
+                createOrder(orderNumber, orderItem1, orderItem2));
 
         String idOfPostedOrder = result.getValue().getId();
 
         Order read = getOne("api/orders", param("id", idOfPostedOrder));
 
+        assertThat(read.getOrderNumber(), is(orderNumber));
         assertThat(read.getOrderRows().size(), is(2));
-        assertThat(read.getOrderRows().get(1).getItemName(), is("Motherboard"));
+        assertThat(read.getOrderRows().get(0).getItemName(), is(orderItem1));
+        assertThat(read.getOrderRows().get(1).getItemName(), is(orderItem2));
     }
 
     @Test
@@ -119,6 +116,28 @@ public class Hw06 extends AbstractHw {
         assertThat(readOrder, equalTo(order));
     }
 
+    @Test
+    public void returnsErrorWhenOrderNumberIsNotValid() {
+        Result<Order> result = postOrder("api/orders", new Order("A"));
+
+        assertThat(result.isSuccess(), is(false));
+        assertThat(result.getErrors().size(), is(1));
+    }
+
+    @Test
+    public void shouldUseSpringInsteadOfLowerLeverClasses() {
+        assumeProjectSourcePathIsSet(pathToProjectSourceCode);
+
+        List<FileReader.File> sourceCode = getProjectSource(pathToProjectSourceCode);
+
+        assertDoesNotContainString(sourceCode, "getConnection");
+        assertDoesNotContainString(sourceCode, "createStatement");
+        assertDoesNotContainString(sourceCode, "prepareStatement");
+        assertDoesNotContainString(sourceCode, "executeUpdate");
+        assertDoesNotContainString(sourceCode, "executeQuery");
+        assertDoesNotContainString(sourceCode, "getGeneratedKeys");
+    }
+
     private void deleteAllOrders() {
         List<Order> orderList = getList("api/orders");
 
@@ -145,5 +164,4 @@ public class Hw06 extends AbstractHw {
     protected String getBaseUrl() {
         return baseUrl;
     }
-
 }
