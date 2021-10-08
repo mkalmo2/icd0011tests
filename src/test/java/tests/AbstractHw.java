@@ -17,6 +17,8 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.text.MessageFormat;
@@ -76,12 +78,17 @@ public abstract class AbstractHw {
     }
 
     protected List<FileReader.File> getProjectSource(String pathToProjectSourceCode) {
+        Path path = resolveProjectSourcePath(pathToProjectSourceCode);
+
+        return new FileReader().getAllFilesAndContentsFrom(path, List.of(".java"));
+    }
+
+    protected Path resolveProjectSourcePath(String pathToProjectSourceCode) {
         String path = frameworkPathToSourceCode.isEmpty()
                 ? pathToProjectSourceCode
                 : frameworkPathToSourceCode;
 
-        return new FileReader().getAllFilesAndContentsFrom(
-                Paths.get(path), List.of(".java"));
+        return Paths.get(path);
     }
 
     private static Client getClient() {
@@ -130,7 +137,7 @@ public abstract class AbstractHw {
     }
 
     protected String getResponseAsString(String path) {
-        return getOne(path, String.class, new Parameter[] {});
+        return getOne(path, String.class);
     }
 
     protected <T> T getOne(String path, Class<T> clazz, Parameter ... parameters) {
