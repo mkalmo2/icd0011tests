@@ -2,7 +2,6 @@ package util;
 
 import jakarta.annotation.Priority;
 import jakarta.ws.rs.client.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -22,8 +21,8 @@ public class ContentTypeFilter implements ClientResponseFilter {
 
         String contentType = getFirst(response.getHeaders().get("Content-Type"));
 
-        if (!Arrays.asList(200, 400).contains(response.getStatus())) {
-            throw new RuntimeException("Http status: " + response.getStatus());
+        if (!List.of(200, 201, 400).contains(response.getStatus())) {
+            throw new RuntimeException("Unexpected Http status: " + response.getStatus());
         } else if (contentType.isEmpty()) {
             throw new RuntimeException("Content-Type is missing");
         } else if (!contentType.contains("json")) {
