@@ -2,10 +2,7 @@ package tests;
 
 import org.junit.Rule;
 import org.junit.rules.Timeout;
-import tests.model.Installment;
-import tests.model.Order;
-import tests.model.Result;
-import tests.model.ValidationErrors;
+import tests.model.*;
 import util.*;
 
 import javax.net.ssl.SSLContext;
@@ -24,10 +21,11 @@ import java.security.SecureRandom;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assume.assumeTrue;
 
 public abstract class AbstractHw {
@@ -229,6 +227,40 @@ public abstract class AbstractHw {
         }
 
         target.request().delete();
+    }
+
+    protected Order createOrder(String number, String ... items) {
+        Order order = new Order(number);
+        for (String item : items) {
+            order.add(new OrderRow(item, 1, 100));
+        }
+        return order;
+    }
+
+    protected String postOrder(String url, String number, String ... items) {
+        return postOrder(url, createOrder(number, items))
+                .getValue()
+                .getId();
+    }
+
+    protected void assertContainsItems(
+            List<Order> orderList, String id, String ... itemName) {
+
+        List<String> items = orderList.stream()
+                .filter(o -> o.getId().equals(id))
+                .flatMap(o -> o.getOrderRows().stream())
+                .map(OrderRow::getItemName)
+                .collect(Collectors.toList());
+
+        assertThat(items, contains(itemName));
+    }
+
+    protected void assertHasIds(List<Order> orderList, String ... ids) {
+        List<String> returnedOrderIds = orderList.stream()
+                .map(Order::getId)
+                .collect(Collectors.toList());
+
+        assertThat(returnedOrderIds, hasItems(ids));
     }
 
     protected String getRandomString(int minLength, int maxLength) {

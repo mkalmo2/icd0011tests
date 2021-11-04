@@ -62,14 +62,6 @@ public class Hw07a extends AbstractHw {
         assertThat(getList("api/v2/orders").size(), equalTo(0));
     }
 
-    private Order createOrder(String number, String ... items) {
-        Order order = new Order(number);
-        for (String item : items) {
-            order.add(new OrderRow(item, 1, 100));
-        }
-        return order;
-    }
-
     @Override
     protected String getBaseUrl() {
         return baseUrl;

@@ -95,15 +95,7 @@ public class Hw06a extends AbstractHw {
     }
 
     private String getRandomString() {
-        return new SampleDataProvider(0).getRandomString(4, 6);
-    }
-
-    private Order createOrder(String number, String ... items) {
-        Order order = new Order(number);
-        for (String item : items) {
-            order.add(new OrderRow(item, 1, 1));
-        }
-        return order;
+        return getRandomString(4, 6);
     }
 
     @Override
