@@ -1,5 +1,6 @@
 package tests;
 
+import jakarta.ws.rs.client.*;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
 import tests.model.*;
@@ -7,10 +8,7 @@ import util.*;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.WebTarget;
+
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -107,25 +105,6 @@ public abstract class AbstractHw {
         return getClient().target(getBaseUrl());
     }
 
-    private <T> List<T> getList(String path,
-                                GenericType<List<T>> type,
-                                Parameter... parameters) {
-
-        WebTarget target = getTarget().path(path);
-
-        for (Parameter p : parameters) {
-            target = target.queryParam(p.getKey(), p.getValue());
-        }
-
-        return target
-                .request(MediaType.APPLICATION_JSON)
-                .get(type);
-    }
-
-    protected List<Installment> getInstallmentList(String path, Parameter... parameters) {
-        return getList(path, new GenericType<List<Installment>>() {}, parameters);
-    }
-
     protected List<Order> getList(String path, Parameter... parameters) {
         return getList(path, new GenericType<List<Order>>() {}, parameters);
     }
@@ -155,41 +134,18 @@ public abstract class AbstractHw {
     }
 
     protected Result<Order> postOrder(String path, Order data) {
-        Response response = getTarget()
-                .path(path)
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(data, MediaType.APPLICATION_JSON));
+        return postCommon(path, data, new GenericType<Order>() {});
+    }
 
-        Result<Order> result = new Result<>();
-
-        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
-            result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
-        } else {
-            result.setValue(response.readEntity(Order.class));
-        }
-
-        return result;
+    protected Result<Order> postOrderFromJsonString(String path, String data) {
+        return postCommon(path, data, new GenericType<Order>() {});
     }
 
     protected Result<Map<String, Object>> postMap(
             String path,
             Map<String, Object> data) {
 
-        Response response = getTarget()
-                .path(path)
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(data, MediaType.APPLICATION_JSON));
-
-        Result<Map<String, Object>> result = new Result<>();
-
-        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
-            result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
-        } else {
-            result.setValue(response.readEntity(
-                    new GenericType<Map<String, Object>>() {}));
-        }
-
-        return result;
+        return postCommon(path, data, new GenericType<Map<String, Object>>() {});
     }
 
     protected boolean sendRequest(String path) {
@@ -202,23 +158,6 @@ public abstract class AbstractHw {
         return Response.Status.OK.getStatusCode() == response.getStatus();
     }
 
-    protected Result<Order> postOrderFromJsonString(String path, String data) {
-        Response response = getTarget()
-                .path(path)
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(data, MediaType.APPLICATION_JSON));
-
-        Result<Order> result = new Result<>();
-
-        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
-            result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
-        } else {
-            result.setValue(response.readEntity(Order.class));
-        }
-
-        return result;
-    }
-
     protected void delete(String path, Parameter ... parameters) {
         WebTarget target = getTarget().path(path);
 
@@ -226,7 +165,7 @@ public abstract class AbstractHw {
             target = target.queryParam(p.getKey(), p.getValue());
         }
 
-        target.request().delete();
+        closeQuietly(target.request().delete());
     }
 
     protected Order createOrder(String number, String ... items) {
@@ -265,6 +204,51 @@ public abstract class AbstractHw {
 
     protected String getRandomString(int minLength, int maxLength) {
         return new SampleDataProvider(0).getRandomString(minLength, maxLength);
+    }
+
+    private <T> Result<T> readResult(Response response, GenericType<T> entityType) {
+        Result<T> result = new Result<>();
+
+        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            result.setErrors(response.readEntity(ValidationErrors.class).getErrors());
+        } else {
+            result.setValue(response.readEntity(entityType));
+        }
+
+        return result;
+    }
+
+    private <T> Result<T> postCommon(String path, Object data, GenericType<T> resultType) {
+        Invocation.Builder request = getTarget()
+                .path(path)
+                .request(MediaType.APPLICATION_JSON);
+
+        try (Response response = request.post(Entity.entity(data, MediaType.APPLICATION_JSON))) {
+            return readResult(response, resultType);
+        }
+    }
+
+    private <T> List<T> getList(String path,
+                                GenericType<List<T>> type,
+                                Parameter... parameters) {
+
+        WebTarget target = getTarget().path(path);
+
+        for (Parameter p : parameters) {
+            target = target.queryParam(p.getKey(), p.getValue());
+        }
+
+        return target
+                .request(MediaType.APPLICATION_JSON)
+                .get(type);
+    }
+
+    private void closeQuietly(AutoCloseable closeable) {
+        try (closeable) {
+
+        } catch (Exception e) {
+            // ignore
+        }
     }
 
 }
