@@ -8,7 +8,7 @@ import tests.*;
 import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Runner {
@@ -84,19 +84,9 @@ public class Runner {
     }
 
     private Integer getMaxPoints(String tag) {
-        Map<String, Integer> pointsMap =
-                Map.of("hw03", 3,
-                       "hw03a", 2,
-                       "hw05", 3,
-                       "hw05a", 2,
-                       "hw06", 3,
-                       "hw06a", 2,
-                       "hw07", 3,
-                       "hw07a", 2,
-                       "hw08", 3,
-                       "hw08a", 2);
-
-        return pointsMap.getOrDefault(tag, 5);
+        return List.of("hw03a", "hw05a", "hw06a", "hw07a", "hw08a").contains(tag)
+                ? 2
+                : 4;
     }
 
     private static Class<?> resolveClass(String tag) {

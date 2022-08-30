@@ -70,15 +70,15 @@ public class Hw01 extends AbstractHw {
     }
 
     @Test
-    @IfThisTestFailsMaxPoints(3)
+    @IfThisTestFailsMaxPoints(2)
     public void nameIsWrittenAsInOis() throws Exception {
         String fullName = fullName(info.getFirstName(), info.getLastName());
 
         if (!getDeclaredNames().contains(fullName)) {
 
-            fail(String.format("There is no declaration with name '%s' in Õis (as of 05.09.2021)."
+            fail(String.format("There is no declaration with the name '%s' in Õis (as of 30.09.2022)."
                     + " If you declared the course later and the name is correct you will get"
-                    + " the points on 19.09.2021", fullName));
+                    + " the points on 19.09.2022", fullName));
         }
     }
 
