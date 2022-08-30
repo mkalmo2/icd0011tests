@@ -14,6 +14,7 @@
         <exclude name="LocalVariableCouldBeFinal" />
         <exclude name="AtLeastOneConstructor" />
         <exclude name="ShortClassName" />
+        <exclude name="UnnecessaryImport" />
         <exclude name="OnlyOneReturn" />
         <exclude name="CallSuperInConstructor" />
     </rule>
