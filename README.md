@@ -8,5 +8,5 @@ Running tests from command line
 
 eg. 
 
-./gradlew runTest --args hw2
+./gradlew runTest --args hw02
 ```
