@@ -203,7 +203,9 @@ public abstract class AbstractHw {
     }
 
     protected String getRandomString(int minLength, int maxLength) {
-        return new SampleDataProvider(0).getRandomString(minLength, maxLength);
+        var alphabet = "abcdefghijklmn";
+        return new SampleDataProvider(0)
+                .getRandomString(minLength, maxLength, alphabet);
     }
 
     private <T> Result<T> readResult(Response response, GenericType<T> entityType) {
@@ -244,11 +246,13 @@ public abstract class AbstractHw {
     }
 
     private void closeQuietly(AutoCloseable closeable) {
-        try (closeable) {
-
-        } catch (Exception e) {
-            // ignore
+        if (closeable == null) {
+            return;
         }
+        
+        try {
+            closeable.close();
+        } catch (Exception ignore) {}
     }
 
 }
