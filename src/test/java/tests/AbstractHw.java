@@ -249,7 +249,7 @@ public abstract class AbstractHw {
         if (closeable == null) {
             return;
         }
-        
+
         try {
             closeable.close();
         } catch (Exception ignore) {}
