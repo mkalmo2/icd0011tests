@@ -17,6 +17,8 @@
         <exclude name="UnnecessaryImport" />
         <exclude name="OnlyOneReturn" />
         <exclude name="CallSuperInConstructor" />
+        <exclude name="UseDiamondOperator" /> <!-- broken, triggers even with var -->
+        <exclude name="EmptyControlStatement" />
     </rule>
 
     <rule ref="category/java/codestyle.xml/ClassNamingConventions">
@@ -37,6 +39,7 @@
         <exclude name="GuardLogStatement" />
         <exclude name="UnusedImports" />
         <exclude name="LiteralsFirstInComparisons" />
+        <exclude name="JUnit5TestShouldBePackagePrivate" />
     </rule>
 
 

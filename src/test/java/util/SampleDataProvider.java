@@ -10,7 +10,7 @@ public class SampleDataProvider {
     private final int maxDepth;
 
     private final String KEY_ALPHABET = "abcdefghijk";
-    private final String VALUE_ALPHABET = KEY_ALPHABET + ":,{}";
+    private final String VALUE_ALPHABET = KEY_ALPHABET + ":,{}   12345";
 
     public SampleDataProvider(int maxDepth) {
         this.maxDepth = maxDepth;
@@ -43,7 +43,7 @@ public class SampleDataProvider {
 
     private JsonValue getRandomValue() {
         return rnd.nextBoolean()
-                ? new JsonValue(getRandomString(2, 5, VALUE_ALPHABET))
+                ? new JsonValue(getRandomString(2, 8, VALUE_ALPHABET))
                 : new JsonValue(rnd.nextInt(50));
     }
 
