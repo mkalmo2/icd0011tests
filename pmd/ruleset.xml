@@ -66,6 +66,7 @@
         <exclude name="DataflowAnomalyAnalysis" />
         <exclude name="AvoidLiteralsInIfCondition" />
         <exclude name="CloseResource" />
+        <exclude name="AvoidAccessibilityAlteration" />
     </rule>
 
     <rule ref="category/java/security.xml" />
