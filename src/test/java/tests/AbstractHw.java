@@ -220,7 +220,7 @@ public abstract class AbstractHw {
         return result;
     }
 
-    private <T> Result<T> postCommon(String path, Object data, GenericType<T> resultType) {
+    protected <T> Result<T> postCommon(String path, Object data, GenericType<T> resultType) {
         Invocation.Builder request = getTarget()
                 .path(path)
                 .request(MediaType.APPLICATION_JSON);
