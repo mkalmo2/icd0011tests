@@ -16,7 +16,7 @@ public class Hw07 extends AbstractHw {
 
     private final String baseUrl = "http://localhost:8080/";
 
-    private final String pathToProjectSourceCode = "/home/mkalmo/git/jee/icd0011";
+    private final String pathToProjectSourceCode = "";
 
     @Test
     public void baseUrlResponds() {
