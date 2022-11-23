@@ -23,9 +23,7 @@ public class ContentTypeFilter implements ClientResponseFilter {
 
         if (!List.of(200, 201, 400).contains(response.getStatus())) {
             throw new RuntimeException("Unexpected Http status: " + response.getStatus());
-        } else if (contentType.isEmpty()) {
-            throw new RuntimeException("Content-Type is missing");
-        } else if (!contentType.contains("json")) {
+        } else if (!contentType.isEmpty() && !contentType.contains("json")) {
             throw new RuntimeException("Unexpected Content-Type: " + contentType);
         }
     }
