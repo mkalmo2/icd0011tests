@@ -84,16 +84,16 @@ public class Runner {
     }
 
     private Integer getMaxPoints(String tag) {
-        return List.of("hw03a", "hw05a", "hw06a", "hw07a", "hw08a").contains(tag)
+        return List.of("hw03a", "hw05a", "hw06a", "hw07a", "hw10a").contains(tag)
                 ? 2
                 : 4;
     }
 
     private static Class<?> resolveClass(String tag) {
-        if (!Arrays.asList(
+        if (!List.of(
                 "hw01", "hw02", "hw03", "hw03a", "hw04", "hw05", "hw05a",
-                "hw06", "hw06a", "hw07", "hw07a", "hw08", "hw08a",
-                "hw09", "hw10").contains(tag)) {
+                "hw06", "hw06a", "hw07", "hw07a", "hw08",
+                "hw09", "hw10", "hw10a").contains(tag)) {
 
             throw new IllegalStateException("unknown tag: " + tag);
         }
