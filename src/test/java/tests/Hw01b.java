@@ -20,7 +20,7 @@ public class Hw01b extends Hw01a {
 
             fail(String.format("There is no declaration with the name '%s' in Õis (as of 04.09.2023)."
                     + " If you declared the course later and the name is correct you will get"
-                    + " the points on 18.09.2022", fullName));
+                    + " the points on 18.09.2023", fullName));
         }
     }
 
