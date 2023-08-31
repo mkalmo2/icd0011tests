@@ -40,6 +40,7 @@
         <exclude name="UnusedImports" />
         <exclude name="LiteralsFirstInComparisons" />
         <exclude name="JUnit5TestShouldBePackagePrivate" />
+        <exclude name="UnusedPrivateMethod" /> <!-- false positive with parameters declared with var -->
     </rule>
 
 
@@ -61,7 +62,7 @@
     </rule>
 
     <rule ref="category/java/errorprone.xml">
-        <exclude name="BeanMembersShouldSerialize" />
+        <exclude name="NonSerializableClass" />
         <exclude name="MissingSerialVersionUID" />
         <exclude name="DataflowAnomalyAnalysis" />
         <exclude name="AvoidLiteralsInIfCondition" />
