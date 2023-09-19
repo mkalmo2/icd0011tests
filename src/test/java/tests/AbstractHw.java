@@ -141,11 +141,11 @@ public abstract class AbstractHw {
         return postCommon(path, data, new GenericType<Order>() {});
     }
 
-    protected Result<Map<String, Object>> postMap(
+    protected Result<List<Object>> postMap(
             String path,
             Map<String, Object> data) {
 
-        return postCommon(path, data, new GenericType<Map<String, Object>>() {});
+        return postCommon(path, data, new GenericType<List<Object>>() {});
     }
 
     protected boolean sendRequest(String path) {

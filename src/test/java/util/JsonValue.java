@@ -2,17 +2,12 @@ package util;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 public class JsonValue {
 
     private String stringValue;
     private Integer integerValue;
     private Map<String, JsonValue> mapValue;
-
-    public JsonValue() {
-    }
 
     public JsonValue(String value) {
         this.stringValue = value;
@@ -40,6 +35,10 @@ public class JsonValue {
 
     public Integer getInteger() {
         return getChecked(integerValue);
+    }
+
+    public void setInteger(Integer value) {
+        integerValue = value;
     }
 
     public Map<String, JsonValue> getMap() {
