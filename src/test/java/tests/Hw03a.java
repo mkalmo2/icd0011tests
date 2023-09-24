@@ -18,7 +18,7 @@ public class Hw03a extends AbstractHw {
 
     @Test
     public void parserCanHandleMoreComplexJson() {
-        JsonValue data = new SampleDataProvider(3).getRandomData();
+        JsonValue data = new SampleDataProvider(5).getRandomData();
 
         Map<String, Object> inputMap = toObjectMap(data);
 
