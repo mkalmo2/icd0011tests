@@ -18,9 +18,9 @@ public class Hw01b extends Hw01a {
 
         if (!getDeclaredNames().contains(fullName)) {
 
-            fail(String.format("There is no declaration with the name '%s' in Õis (as of 04.09.2023)."
+            fail(String.format("There is no declaration with the name '%s' in Õis (as of 01.09.2024)."
                     + " If you declared the course later and the name is correct you will get"
-                    + " the points on 18.09.2023", fullName));
+                    + " the points on 18.09.2024", fullName));
         }
     }
 
