@@ -19,6 +19,7 @@
         <exclude name="CallSuperInConstructor" />
         <exclude name="UseDiamondOperator" /> <!-- broken, triggers even with var -->
         <exclude name="EmptyControlStatement" />
+        <exclude name="UseExplicitTypes" />
     </rule>
 
     <rule ref="category/java/codestyle.xml/ClassNamingConventions">
@@ -37,10 +38,10 @@
         <exclude name="JUnitTestContainsTooManyAsserts" />
         <exclude name="UnusedFormalParameter" />
         <exclude name="GuardLogStatement" />
-        <exclude name="UnusedImports" />
         <exclude name="LiteralsFirstInComparisons" />
         <exclude name="JUnit5TestShouldBePackagePrivate" />
         <exclude name="UnusedPrivateMethod" /> <!-- false positive with parameters declared with var -->
+        <exclude name="UnusedLocalVariable" />
     </rule>
 
 
@@ -64,7 +65,6 @@
     <rule ref="category/java/errorprone.xml">
         <exclude name="NonSerializableClass" />
         <exclude name="MissingSerialVersionUID" />
-        <exclude name="DataflowAnomalyAnalysis" />
         <exclude name="AvoidLiteralsInIfCondition" />
         <exclude name="CloseResource" />
         <exclude name="AvoidAccessibilityAlteration" />
