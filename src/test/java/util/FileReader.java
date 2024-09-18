@@ -29,12 +29,10 @@ public class FileReader {
     }
 
     private String readFile(Path path) {
-        try {
-            return Files.lines(path).collect(Collectors.joining("\n"));
+        try (var stream = Files.lines(path)) {
+            return stream.collect(Collectors.joining("\n")).replaceAll("\\s+", " ");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
-
 }

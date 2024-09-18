@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.Test;
 import tests.model.Result;
+import util.FileReader;
 import util.JsonValue;
 import util.SampleDataProvider;
 
@@ -14,6 +15,8 @@ import static org.hamcrest.Matchers.is;
 public class Hw03a extends AbstractHw {
 
     private final String baseUrl = "http://localhost:8080";
+
+    private final String pathToProjectSourceCode = "";
 
     @Test
     public void parserCanHandleMoreComplexJson() {
@@ -29,6 +32,19 @@ public class Hw03a extends AbstractHw {
         assertThat(result.isSuccess(), is(true));
 
         assertThat(result.getValue(), is(expected));
+    }
+
+    @Test
+    public void shouldNotUseExternalLibraries() {
+        assumeProjectSourcePathIsSet(pathToProjectSourceCode);
+
+        List<FileReader.File> sourceCode = getProjectSource(pathToProjectSourceCode);
+
+        assertDoesNotContainString(sourceCode, "import org");
+        assertDoesNotContainString(sourceCode, "import com");
+        assertDoesNotContainString(sourceCode, "Gson");
+        assertDoesNotContainString(sourceCode, "ObjectMapper");
+        assertDoesNotContainString(sourceCode, "Genson");
     }
 
     private Map<String, Object> toObjectMap(JsonValue data) {
