@@ -54,6 +54,7 @@
         <exclude name="AvoidCatchingGenericException" />
         <exclude name="LoosePackageCoupling" />
         <exclude name="SignatureDeclareThrowsException" />
+        <exclude name="ExceptionAsFlowControl" />
     </rule>
 
     <rule ref="category/java/design.xml/TooManyMethods">
