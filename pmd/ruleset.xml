@@ -20,6 +20,7 @@
         <exclude name="UseDiamondOperator" /> <!-- broken, triggers even with var -->
         <exclude name="EmptyControlStatement" />
         <exclude name="UseExplicitTypes" />
+        <exclude name="LambdaCanBeMethodReference" />
     </rule>
 
     <rule ref="category/java/codestyle.xml/ClassNamingConventions">
