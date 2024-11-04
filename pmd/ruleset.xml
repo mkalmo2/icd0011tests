@@ -21,6 +21,7 @@
         <exclude name="EmptyControlStatement" />
         <exclude name="UseExplicitTypes" />
         <exclude name="LambdaCanBeMethodReference" />
+        <exclude name="TooManyStaticImports" />
     </rule>
 
     <rule ref="category/java/codestyle.xml/ClassNamingConventions">
