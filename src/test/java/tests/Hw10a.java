@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
-public class Hw10a extends Hw10 {
+public class Hw10a extends AbstractHw {
 
     private final String baseUrl = "http://localhost:8080/";
 
