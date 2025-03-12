@@ -25,7 +25,7 @@ public class Hw01b extends Hw01a {
     }
 
     private String fullName(String first, String last) {
-        return first + " " + last;
+        return (first + " " + last).trim();
     }
 
     private Set<String> getDeclaredNames() throws Exception {
