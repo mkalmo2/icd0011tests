@@ -25,7 +25,7 @@ public class Hw01b extends Hw01a {
     }
 
     private String fullName(String first, String last) {
-        return (first + " " + last).trim();
+        return first + " " + last;
     }
 
     private Set<String> getDeclaredNames() throws Exception {
@@ -36,7 +36,8 @@ public class Hw01b extends Hw01a {
 
         Set<String> names = new HashSet<>();
         for (CSVRecord record : loaded) {
-            names.add(fullName(record.get("eesnimi"), record.get("perekonnanimi")));
+            names.add(fullName(record.get("eesnimi").trim(),
+                               record.get("perekonnanimi").trim()));
         }
 
         return names;
