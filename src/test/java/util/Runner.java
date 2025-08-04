@@ -1,10 +1,17 @@
 package util;
 
-import org.junit.runner.JUnitCore;
-import org.junit.runner.notification.Failure;
-import org.junit.runner.notification.RunListener;
+import org.junit.platform.engine.TestExecutionResult;
+import org.junit.platform.engine.discovery.DiscoverySelectors;
+import org.junit.platform.launcher.Launcher;
+import org.junit.platform.launcher.LauncherDiscoveryRequest;
+import org.junit.platform.launcher.TestExecutionListener;
+import org.junit.platform.launcher.TestIdentifier;
+import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
+import org.junit.platform.launcher.core.LauncherFactory;
+import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 import tests.*;
 
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
@@ -33,46 +40,60 @@ public class Runner {
         new Runner().run(tag);
     }
 
-    private void run(String tag) {
+    public void run(String tag) {
+        String className = resolveClassName(tag);
+
+        LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
+                .selectors(DiscoverySelectors.selectClass(loadClass(className)))
+                .configurationParameter("junit.jupiter.execution.parallel.enabled", "true")
+                .build();
+
+        Launcher launcher = LauncherFactory.create();
 
         PrintStream out = System.out;
 
-        System.setOut(new PrintStream(new NullOutputStream()));
+        System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
-        JUnitCore junit = new JUnitCore();
-        junit.addListener(new RunListener() {
+        SummaryGeneratingListener listener = new SummaryGeneratingListener();
+
+        launcher.registerTestExecutionListeners(listener);
+
+        launcher.registerTestExecutionListeners(new TestExecutionListener() {
             @Override
-            public void testFailure(Failure failure) {
+            public void executionFinished(TestIdentifier testIdentifier,
+                                          TestExecutionResult testExecutionResult) {
 
-                out.println("   " + failure.getDescription() + " failed");
-                out.println(failure.getException());
-
-                String trace = Arrays.stream(failure.getException().getStackTrace())
-                        .filter(f -> ! f.getClassName().startsWith("junit."))
-                        .filter(f -> ! f.getClassName().startsWith("jdk."))
-                        .filter(f -> ! f.getClassName().startsWith("java."))
-                        .filter(f -> ! f.getClassName().startsWith("org."))
-                        .filter(f -> ! f.getClassName().startsWith("util.Runner"))
-                        .filter(f -> ! f.getClassName().startsWith("tests.AbstractHw"))
-                        .map(StackTraceElement::toString)
-                        .collect(Collectors.joining("\n"));
-
-                out.println(trace);
-
-                out.println("\n\n");
+                testExecutionResult.getThrowable().ifPresent(t -> {
+                    out.println(t.getMessage());
+                    out.println(getTrace(t) + "\n");
+                });
             }
         });
 
-        var result = junit.run(resolveClass(tag));
+        launcher.execute(request);
 
-        if (result.wasSuccessful()) {
+        if (listener.getSummary().getTestsFailedCount() == 0) {
             out.println("RESULT: PASSED");
         } else {
             out.println("RESULT: FAILED");
         }
+
+        System.setOut(out);
     }
 
-    private static Class<?> resolveClass(String tag) {
+    private String getTrace(Throwable throwable) {
+        return Arrays.stream(throwable.getStackTrace())
+                .filter(f -> ! f.getClassName().startsWith("jdk."))
+                .filter(f -> ! f.getClassName().startsWith("java."))
+                .filter(f -> ! f.getClassName().startsWith("org."))
+                .filter(f -> ! f.getClassName().startsWith("runner."))
+                .filter(f -> ! f.getClassName().startsWith("util.Runner"))
+                .filter(f -> ! f.getClassName().startsWith("tests.AbstractHw"))
+                .map(StackTraceElement::toString)
+                .collect(Collectors.joining("\n"));
+    }
+
+    private static String resolveClassName(String tag) {
         if (!List.of(
                 "hw01a", "hw01b", "hw02", "hw03", "hw03a", "hw04", "hw05", "hw05a",
                 "hw06", "hw06a", "hw07", "hw07a", "hw08",
@@ -81,7 +102,7 @@ public class Runner {
             throw new IllegalStateException("unknown tag: " + tag);
         }
 
-        return loadClass("tests.Hw" + tag.substring(2));
+        return "tests.Hw" + tag.substring(2);
     }
 
     private static Class<?> loadClass(String className) {

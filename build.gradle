@@ -48,7 +48,7 @@ dependencies {
             name: 'junit-jupiter-engine',
             version: '5.13.4'
 
-    testRuntimeOnly group: 'org.junit.platform', name:
+    testImplementation group: 'org.junit.platform', name:
             'junit-platform-launcher',
             version: '1.13.4'
 
