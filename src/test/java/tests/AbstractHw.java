@@ -1,8 +1,7 @@
 package tests;
 
 import jakarta.ws.rs.client.*;
-import org.junit.Rule;
-import org.junit.rules.Timeout;
+import org.junit.jupiter.api.Timeout;
 import tests.model.*;
 import util.*;
 
@@ -19,17 +18,14 @@ import java.security.SecureRandom;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.hasItems;
-import static org.junit.Assume.assumeTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+@Timeout(value = 20, unit = TimeUnit.SECONDS)
 public abstract class AbstractHw {
-
-    @Rule
-    public Timeout globalTimeout = Timeout.seconds(20);
 
     protected abstract String getBaseUrl();
 
@@ -56,9 +52,8 @@ public abstract class AbstractHw {
             return;
         }
 
-        assumeTrue("Please assign the path to your project source code directory " +
-                        "to the field 'pathToProjectSourceCode'",
-                path != null && !path.isEmpty());
+        assumeTrue(path != null && !path.isEmpty(), "Please assign the path to your project source code directory " +
+                        "to the field 'pathToProjectSourceCode'");
     }
 
     protected void assertDoesNotContainString(List<FileReader.File> files,
@@ -69,7 +64,7 @@ public abstract class AbstractHw {
                     "file {0} contains string ''{1}''",
                     file.name, targetString);
 
-            assertThat(message, file.contents, not(containsString(targetString)));
+            assertThat(file.contents).as(message).doesNotContain(targetString);
         }
     }
 
@@ -191,7 +186,7 @@ public abstract class AbstractHw {
                 .map(OrderRow::getItemName)
                 .collect(Collectors.toList());
 
-        assertThat(items, contains(itemName));
+        assertThat(items).containsExactly(itemName);
     }
 
     protected void assertHasIds(List<Order> orderList, String ... ids) {
@@ -199,7 +194,7 @@ public abstract class AbstractHw {
                 .map(Order::getId)
                 .collect(Collectors.toList());
 
-        assertThat(returnedOrderIds, hasItems(ids));
+        assertThat(returnedOrderIds).contains(ids);
     }
 
     protected String getRandomString(int minLength, int maxLength) {

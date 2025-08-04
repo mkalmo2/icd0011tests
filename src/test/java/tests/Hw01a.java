@@ -1,8 +1,8 @@
 package tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import tests.model.Info;
 
 import java.io.IOException;
@@ -10,15 +10,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class Hw01a extends AbstractHw {
 
     protected static Info info;
 
-    @BeforeClass
+    @BeforeAll
     public static void prepare() throws IOException {
         if (frameworkPathToSourceCode.isEmpty()) {
             throw new RuntimeException("Provide project source path as a second argument");
@@ -31,36 +30,36 @@ public class Hw01a extends AbstractHw {
 
     @Test
     public void infoJsonFileExists() {
-        assertThat(info, is(notNullValue()));
+        assertThat(info).isNotNull();
     }
 
     @Test
     public void firstNameFieldIsFilled() {
-        assertThat(info.getFirstName().length(), is(greaterThan(1)));
+        assertThat(info.getFirstName()).hasSizeGreaterThan(1);
     }
 
     @Test
     public void lastNameFieldIsFilled() {
-        assertThat(info.getLastName().length(), is(greaterThan(1)));
+        assertThat(info.getLastName()).hasSizeGreaterThan(1);
     }
 
     @Test
     public void formOfStudyIsValid() {
-        assertThat(info.getFormOfStudy(), oneOf("S", "O"));
+        assertThat(info.getFormOfStudy()).isIn("S", "O");
     }
 
     @Test
     public void readTheRulesIsMarkedTrue() {
-        assertThat(info.isiHaveReadTheRulesOfTheCourse(), is(true));
+        assertThat(info.isiHaveReadTheRulesOfTheCourse()).isTrue();
     }
 
     @Test
     public void projectContainsCorrectGitIgnoreFile() {
         String content = getFileContents(".gitignore");
 
-        assertThat(content, containsString("*.class"));
-        assertThat(content, containsString("*.war"));
-        assertThat(content, containsString("*.jar"));
+        assertThat(content).contains("*.class");
+        assertThat(content).contains("*.war");
+        assertThat(content).contains("*.jar");
     }
 
     private static String getFileContents(String fileName) {
