@@ -1,11 +1,9 @@
 package util;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.csv.QuoteMode;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
@@ -23,7 +21,7 @@ public class CsvUtil {
                 .setHeader(headers)
                 .setDelimiter(';')
                 .setSkipHeaderRecord(true)
-                .build()
+                .get()
                 .parse(in);
 
         return StreamSupport.stream(records.spliterator(), false)
