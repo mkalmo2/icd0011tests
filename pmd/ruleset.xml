@@ -34,15 +34,16 @@
     </rule>
 
     <rule ref="category/java/bestpractices.xml">
-        <exclude name="JUnitAssertionsShouldIncludeMessage" />
+        <exclude name="UnitTestAssertionsShouldIncludeMessage" />
         <exclude name="AvoidReassigningParameters" />
-        <exclude name="JUnitTestContainsTooManyAsserts" />
+        <exclude name="UnitTestContainsTooManyAsserts" />
         <exclude name="UnusedFormalParameter" />
         <exclude name="GuardLogStatement" />
         <exclude name="LiteralsFirstInComparisons" />
         <exclude name="JUnit5TestShouldBePackagePrivate" />
         <exclude name="UnusedPrivateMethod" /> <!-- false positive with parameters declared with var -->
         <exclude name="UnusedLocalVariable" />
+        <exclude name="SystemPrintln" />
     </rule>
 
 
