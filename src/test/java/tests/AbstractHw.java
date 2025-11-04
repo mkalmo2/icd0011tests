@@ -101,7 +101,7 @@ public abstract class AbstractHw {
     }
 
     protected List<Order> getList(String path, Parameter... parameters) {
-        return getList(path, new GenericType<List<Order>>() {}, parameters);
+        return getList(path, new GenericType<>() {}, parameters);
     }
 
     protected Order getOne(String path, Parameter... parameters) {
@@ -129,18 +129,18 @@ public abstract class AbstractHw {
     }
 
     protected Result<Order> postOrder(String path, Order data) {
-        return postCommon(path, data, new GenericType<Order>() {});
+        return postCommon(path, data, new GenericType<>() {});
     }
 
     protected Result<Order> postOrderFromJsonString(String path, String data) {
-        return postCommon(path, data, new GenericType<Order>() {});
+        return postCommon(path, data, new GenericType<>() {});
     }
 
     protected Result<List<Object>> postMap(
             String path,
             Map<String, Object> data) {
 
-        return postCommon(path, data, new GenericType<List<Object>>() {});
+        return postCommon(path, data, new GenericType<>() {});
     }
 
     protected boolean sendRequest(String path) {
@@ -184,7 +184,7 @@ public abstract class AbstractHw {
                 .filter(o -> o.getId().equals(id))
                 .flatMap(o -> o.getOrderRows().stream())
                 .map(OrderRow::getItemName)
-                .collect(Collectors.toList());
+                .toList();
 
         assertThat(items).containsExactly(itemName);
     }
