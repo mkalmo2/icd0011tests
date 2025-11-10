@@ -71,6 +71,7 @@
         <exclude name="AvoidLiteralsInIfCondition" />
         <exclude name="CloseResource" />
         <exclude name="AvoidAccessibilityAlteration" />
+        <exclude name="ConstructorCallsOverridableMethod" />
     </rule>
 
     <rule ref="category/java/security.xml" />
